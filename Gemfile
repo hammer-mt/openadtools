@@ -14,6 +14,9 @@ group :production do
    gem 'rails_12factor'
 end
 
+# Bootstrap for Style Framework
+gem 'bootstrap-sass'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

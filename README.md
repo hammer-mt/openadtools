@@ -1,4 +1,4 @@
-OpenAdTools.com
+OpenAdTools
 ===========
 
 ## Open-source tools for performance marketers.
