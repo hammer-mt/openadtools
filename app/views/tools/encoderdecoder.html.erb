@@ -1,3 +1,31 @@
-<h1>Placeholder</h1>
-<p>Still working on this one, sorry!</p>
-<p>Tweet me <%= link_to "Michael Taylor", "https://www.linkedin.com/in/mjt145" %> to let me know to make this a priority!</p>
+<% content_for :title do %>Encoder/Decoder by OpenAdTools<% end %>
+<% content_for :description do %>Decode or Encode URLs at the click of a button.<% end %>
+
+<div class="page-header">
+  <h1>Decoder/Encoder</h1>
+  <p class="lead">Decode or Encode URLs at the click of a button.</p>
+</div>
+
+<form onsubmit="return false;">
+	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the URL(s) you want to encode/decode here..." autofocu="true"></textarea>
+	<button class="submit btn btn-default btn-lg pull-right" onclick="encode();" >Encode</button>
+	<button class="submit btn btn-default btn-lg pull-right" onclick="decode();" >Decode</button>
+</form>
+<br><br><br>
+
+<p class="text-muted">This tool was created by <%= link_to "Eric Meyer", "http://meyerweb.com/eric/tools/dencoder/" %>, before being reproduced and modified here.</p>
+
+<%= javascript_tag do %>
+
+function encode() {
+	var obj = document.getElementById('textinput')
+	var unencoded = obj.value;
+	obj.value = encodeURIComponent(unencoded).replace(/'/g,"%27").replace(/"/g,"%22");
+}
+function decode() {
+	var obj = document.getElementById('textinput')
+	var encoded = obj.value;
+	obj.value = decodeURIComponent(encoded.replace(/\+/g,  " "));
+}
+
+<% end %>
