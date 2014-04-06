@@ -49,4 +49,10 @@ class ToolsController < ApplicationController
 
   def treediagram
   end
+
+  def tabtocsv
+  end
+
+  def followerfinder
+  end
 end

@@ -20,7 +20,8 @@ Openadtools::Application.routes.draw do
   get "url-validator", to: "tools#urlvalidator", as: "urlvalidator"
   get "editorial-calendar", to: "tools#editorial-calendar", as: "editorialcalendar"
   get "tree-diagram", to: "tools#treediagram", as: "treediagram"
-
+  get "follower-finder", to: "tools#followerfinder", as: "followerfinder"
+  get "tab-to-csv", to: "tools#tabtocsv", as: "tabtocsv"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

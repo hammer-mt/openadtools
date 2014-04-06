@@ -1,0 +1,59 @@
+<% content_for :title do %>Follower Finder by OpenAdTools<% end %>
+<% content_for :description do %>Decode or Encode URLs at the click of a button.<% end %>
+
+<div class="page-header">
+  <h1>Follower Finder</h1>
+  <p class="lead">Find the number of followers for a list of Twitter handles.</p>
+</div>
+
+<form onsubmit="return false;">
+	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the Twitter handles you want to find followers for here..." autofocus ></textarea>
+	<button class="submit btn btn-default btn-lg pull-right" onclick="findFollowers();" >Find Followers</button>
+</form>
+<br><br><br>
+
+<%= javascript_tag do %>
+
+function findFollowers() {
+	var obj = document.getElementById('textinput')
+	var unfound = obj.value;
+	obj.value = unfound+" "+getTwitterFollowers(unfound)
+}
+
+function getTwitterFollowers(id) {
+ 
+  var consumerKey = "0V08V4ZkbTeuJTqKvy0tJQ"; // Register your app with Twitter.
+  var consumerSecret = "bNbsdln3OYLBwrw384fyUMDV8lJ4cH7fptuRomrI"; // Register your app with Twitter.
+  
+  Utilities.sleep(1000);
+  
+  id = id.replace("@","");
+  
+  var oauthConfig = UrlFetchApp.addOAuthService("twitter");
+  oauthConfig.setAccessTokenUrl(
+  "https://api.twitter.com/oauth/access_token");
+  oauthConfig.setRequestTokenUrl(
+  "https://api.twitter.com/oauth/request_token");
+  oauthConfig.setAuthorizationUrl(
+  "https://api.twitter.com/oauth/authorize");
+  oauthConfig.setConsumerKey(consumerKey);
+  oauthConfig.setConsumerSecret(consumerSecret);
+  
+  // “twitter” value must match the argument to “addOAuthService” above.
+  var options = {
+  "oAuthServiceName" : "twitter",
+  "oAuthUseToken" : "always"
+  };
+  
+  var url = "https://api.twitter.com/1.1/users/show.json?screen_name="+id;
+  
+  var response = UrlFetchApp.fetch(url, options);
+
+  var tweets = JSON.parse(response.getContentText());
+  
+  return tweets.followers_count;
+  
+}
+
+
+<% end %>
