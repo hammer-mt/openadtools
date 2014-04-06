@@ -9,7 +9,7 @@
 	<div class="form-group">
     <label class="col-sm-2 control-label">URL*</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputURL" placeholder="What landing page will users land on?" required autofocus >
+      <input type="url" class="form-control" id="inputURL" placeholder="What landing page will users land on?" required autofocus >
       <span class="help-block">e.g. 'http://www.yourwebsite.com/yourlandingpage'</span>
     </div>
   </div>
@@ -17,8 +17,8 @@
     <label class="col-sm-2 control-label">utm_source*</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="inputSource" placeholder="What publisher or network is serving your ads?" required >
-      <span class="help-block">
-      	<button class="btn btn-default btn-s"><span>facebook</span></button>
+      <span class="help-block">e.g. 'facebook', 'google', 'buzzfeed', 'mailchimp' or 'buffer'
+<!--       	<button class="btn btn-default btn-s"><span>facebook</span></button>
       	<button class="btn btn-default btn-s"><span>twitter</span></button>
       	<button class="btn btn-default btn-s"><span>google</span></button>
       	<button class="btn btn-default btn-s"><span>bing</span></button>
@@ -28,7 +28,7 @@
       	<button class="btn btn-default btn-s"><span>adwords</span></button>
       	<button class="btn btn-default btn-s"><span>adcenter</span></button>
       	<button class="btn btn-default btn-s"><span>buffer</span></button>
-      	<button class="btn btn-default btn-s"><span>mailchimp</span></button>
+      	<button class="btn btn-default btn-s"><span>mailchimp</span></button> -->
       </span>
     </div>
   </div>
@@ -36,8 +36,8 @@
     <label class="col-sm-2 control-label">utm_medium*</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="inputMedium" placeholder="What marketing channel is this?" required >
-      <span class="help-block">
-      	<button class="btn btn-default btn-s"><span>social</span></button>
+      <span class="help-block">e.g. 'social', 'email', 'video', 'display', 'affiliate', 'cpm', 'cpc' or 'cpa'
+<!--       	<button class="btn btn-default btn-s"><span>social</span></button>
       	<button class="btn btn-default btn-s"><span>email</span></button>
       	<button class="btn btn-default btn-s"><span>display</span></button>
       	<button class="btn btn-default btn-s"><span>retargeting</span></button>  	
@@ -46,7 +46,7 @@
       	<button class="btn btn-default btn-s"><span>video</span></button>
       	<button class="btn btn-default btn-s"><span>cpm</span></button>
       	<button class="btn btn-default btn-s"><span>cpc</span></button>
-      	<button class="btn btn-default btn-s"><span>cpa</span></button>
+      	<button class="btn btn-default btn-s"><span>cpa</span></button> -->
       </span>
     </div>
   </div>
@@ -61,8 +61,8 @@
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox" id="inputDate" checked > Add time and date?
-          <span class="help-block">e.g. '&utm_campaign=newsletter<em id="inputDate">-<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %></em>'</span>
+          <input type="checkbox" id="dateYes" data-date="<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %>" checked > Add time and date?
+          <span class="help-block">e.g. '&utm_campaign=new+product+launch<em id="inputDate" >-<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %></em>'</span>
         </label>
       </div>
     </div>
@@ -71,8 +71,8 @@
     <label class="col-sm-2 control-label">utm_content</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="inputContent" placeholder="What type of ad format is this?" >
-      <span class="help-block">
-      	<button class="btn btn-default btn-s"><span>300x250</span></button>
+      <span class="help-block">e.g. '300x250', '728x90', 'link', 'timeline', 'rightrail' or 'blogpost'
+<!--       	<button class="btn btn-default btn-s"><span>300x250</span></button>
       	<button class="btn btn-default btn-s"><span>728x90</span></button>
       	<button class="btn btn-default btn-s"><span>160x600</span></button>
       	<button class="btn btn-default btn-s"><span>336x280</span></button>
@@ -83,14 +83,14 @@
       	<button class="btn btn-default btn-s"><span>link</span></button>
       	<button class="btn btn-default btn-s"><span>text</span></button>
       	<button class="btn btn-default btn-s"><span>blogpost</span></button>
-      	<button class="btn btn-default btn-s"><span>trueview</span></button>
+      	<button class="btn btn-default btn-s"><span>trueview</span></button> -->
       </span>
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">utm_text</label>
+    <label class="col-sm-2 control-label">utm_term</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputText" placeholder="What keyword did users search for?" >
+      <input type="text" class="form-control" id="inputTerm" placeholder="What keyword did users search for?" >
       <span class="help-block">e.g. 'red+dress', 'cheap+flights+to+alicante' or 'marketing+automation+software'</span>
     </div>
   </div>
@@ -102,7 +102,7 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <h3>Output:</h3>
-      <p class="well"><span class="text-muted">This is where your Tracked Link will appear<span></p>
+      <p class="well" id="output" ><span class="text-muted">This is where your Tracked Link will appear<span></p>
       <a href='#top'>Back to Top &#94;</a>
     </div>
   </div>
@@ -111,16 +111,64 @@
 <%= javascript_tag do %>
 
 function trackLink() {
+  
+  // Set Initial Variables
+  var url = document.getElementById("inputURL").value;
+  var source = document.getElementById("inputSource").value;
+  var medium = document.getElementById("inputMedium").value;
+  var campaign = document.getElementById("inputCampaign").value;
+  var dateYes = document.getElementById("dateYes").checked;
+  var content = document.getElementById("inputContent").value;
+  var term = document.getElementById("inputTerm").value;
+  var date = document.getElementById("dateYes").getAttribute('data-date');
 
-  var url = document.getElementById("inputURL")
-  var source = document.getElementById("inputURL")
-  var medium = document.getElementById("inputURL")
-  var campaign = document.getElementById("inputURL")
-  var date = var url = document.getElementById("inputURL")
-  var content = document.getElementById("inputURL")
-  var term = document.getElementById("inputURL")
+  // Replace spaces and underscores with correct characters
+  source = source.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+  medium = medium.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+  campaign = campaign.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+  content = content.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+  term = term.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+
+  var output = document.getElementById("output");
+
+  var finished = "";
+
+  finished += url;
+
+  // Does URL contain a question mark?
+  if (~url.indexOf('?')) {
+    finished+="&"
+  } else {
+    finished+="?"
+  }
+
+  // Add utm source, medium and campaign
+  finished+="utm_source="+source+"&utm_medium="+medium+"&utm_campaign="+campaign
+
+  // Add date?
+  if (dateYes) {
+    finished+="-"+date
+  }
+
+  // Add utm_content?
+  if (content!=="") {
+    finished+="&utm_content="+content
+  }
+
+  // Add utm_term?
+  if (term!=="") {
+    finished+="&utm_term="+term
+  }
+
+  // Clean dissallowed characters from output
+  finished = finished.replace(/\$/g, '').replace(/\£/g, '').replace(/\€/g, '');
+
+  // Display output
+  output.innerHTML=finished;
+  console.log(finished);
+
+}
 
 <% end %>
 
-
-
+<!-- param.gsub("$","").gsub("£","").gsub("€","").gsub("%","").gsub("*","").gsub(" ","-").gsub("?","").gsub("/","-").gsub("&","") -->

@@ -55,4 +55,7 @@ class ToolsController < ApplicationController
 
   def followerfinder
   end
+
+  def adsizes
+  end
 end
