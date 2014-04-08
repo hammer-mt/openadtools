@@ -1,114 +1,233 @@
 <% content_for :title do %>Link Tracker by OpenAdTools<% end %>
 <% content_for :description do %>Quickly add UTM tracking parameters to your marketing campaign links.<% end %>
-<div class="page-header">
+<% content_for :tweet do %>"I use Link Tracker by @OpenAdTools to add utm_tracking to my #marketing campaigns => http://bit.ly/LinkTracker"<% end %>
+
+<div>
   <h1>Link Tracker</h1>
   <p class="lead">Quickly add UTM tracking parameters to your marketing campaign links.</p>
 </div>
 
-<form class="form-horizontal" role="form" onsubmit="return false;" >
-	<div class="form-group">
-    <label class="col-sm-2 control-label">URL*</label>
-    <div class="col-sm-10">
-      <input type="url" class="form-control" id="inputURL" placeholder="What landing page will users land on?" required autofocus >
-      <span class="help-block">e.g. 'http://www.yourwebsite.com/yourlandingpage'</span>
-    </div>
+<ul class="nav nav-tabs" id="tabs">
+  <li><a href="#learn" data-toggle="tab"><h5>Best Practice</h5></a></li>
+  <li><a href="#tool" data-toggle="tab" class="active"><h5>Link Tracker</h5></a></li>
+<!--   <li><a href="#code" data-toggle="tab"><h5>Code</h5></a></li>
+  <li><a href="#howto" data-toggle="tab"><h5>How To Use</h5></a></li>
+  <li><a href="#comments" data-toggle="tab"><h5>Comments</h5></a></li> -->
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane" id="learn">
+    <br>
+    <h2>UTM Tracking Parameters Best Practice</h2>
+    <hr>
+    <p class="lead">Simply put, utm tracking parameters tell you where users are coming from and what they're clicking on. Nowhere in digital marketing does the 'garbage in, garbage out' principle apply more strongly - if your campaigns aren't tracked with the right parameters, you'll render Google Analytics completely useless. Follow these best practices and you avoid a lot of heartache...</p>
+    <hr>
+
+    <h3>DRY (don’t repeat yourself)</h3>
+    <p>The first rule of utm club is: don't repeat yourself. This is good advice generally and a mantra amongst programmers. I repeat: you should <em>never</em> repeat yourself within your tracking tags. It’s unnecessary, makes reports difficult to read, wastes precious keystrokes and tends to confuse people.</p>
+    <blockquote><strong>Don't do what Twitter does:</strong>
+      <div>'https://twitter.com/2michaeltaylor/status/410873192593375232/photo/1/large?<em>utm_source=fb</em>&<em>utm_medium=fb</em>&utm_campaign=2michaeltaylor&utm_content=410873192593375232’</blockquote>
+
+    <h3>Source, Medium and Campaign are <em>Mandatory!</em></h3>
+    <p>If Google Analytics doesn’t see a utm_source in your URL, it won’t even look for the others, so put this one in first. This should almost always be the name of the referring website. So for example ‘msn.com’, ‘facebook.com’, ‘newsletter’, or ‘criteo’ to give an example of an Ad network that can’t tell you what site you’re appearing on.
+
+    After source, Google Analytics then attempts to find a campaign and medium - if it finds both, it’ll record that information. Content and term are optional, but useful parameters to use (more on this later).</p>
+
+    <h3>all lower case, all the time</h3>
+    <p>One annoying issue that you’ll quickly notice digging through many accounts is mixed use of upper and lower case. Use all lower case, all the time. Unceremoniously shame anyone caught using uppercase… trust me it saves all sorts of headaches and complications.</p>
+
+    <h3>Good parameters ask questions</h3>
+    <p>When creating labels for your utm parameters, you should be thinking of them as answers to questions. Nowhere is this more important than with utm_campaign, as it’s the parameter that pulls all other labels together — identifying how your campaign has performed across channels and sources.</p>
+
+    <p>With utm_campaign the question you’re answering is “Why am I targeting these sources and (optional) when? You could be sending a targeted email blast, it could be a product launch, or a promotion for Christmas. Steer clear of campaign names like ‘blogpost’, ‘shoes’ or ‘revenue’.</p>
+
+    <p>It adds some overhead, but you might consider adding a date for time-sensitive campaigns — for example adding a date to the campaign for your weekly email allows you to see how many people are still clicking through weeks or month after you sent the email. I recommend the reverse date format (2013-june-23) as it’s comprehendible across countries and makes it easier to filter and search the data.
+
+    <blockquote>Suggestions: ‘newsletter-2013-week-23’, ‘20pc-off-2013-sept-23' or ‘sweepstakes-maldives’.</blockquote>
+
+    <h3>Don't <del>under</del>_score an own-goal</h3>
+    <p>You should be careful using underscores, as this limits searchability — a search for ‘june’ would surface campaigns tagged as ‘23-june-2013' or ‘2012-june’, but <em>NOT</em> a campaign tagged as ‘june_2013' as this is treated a single string/word by Google (see more on <%= link_to "dashes vs underscores", "http://www.mattcutts.com/blog/dashes-vs-underscores/?UTM=Thursdayblog-GATracking-051613", target: "_blank" %>).</p>
+
+    <h3>Don’t get too specific</h3>
+    <p>One of the most common mistakes I see is improper use of utm_medium. This parameter should give the context of the Ad placement and should be fairly high level, like the provided defaults: ‘cpc’ (paid search), ‘organic’ (organic search), ‘referral’ and ‘direct’. I often see examples like ‘utm_medium=banner300' which is too specific, or ‘utm_medium=paid’ which is much too broad.</p>
+
+    <blockquote>Suggestions: ‘banner’ (or 'display'), 'social', ‘email’, ‘affiliate’ and ‘video’</blockquote>
+
+    <p>You should never use ‘cpc’ or ‘organic’ for anything other than search, but you should consider splitting out paid and organic for other channels so you can easily report on paid marketing effectiveness. One example would be using 'paid-social' for any promoted posts on Facebook instead of 'social'. If you’re running display retargeting I’d also consider separating this, because those users will behave completely differently to normal display users (and it’ll help with attribution).</p>
+
+    <h3>For your eyes only</h3>
+    <p>For (what should be) obvious reasons, you should never be recording personal or sensitive information in URL parameters. It's probably illegal, it's easy to intercept and you'll expose private information to whatever intern you give analytics access to. Examples include: user's email addresses, their names, demographic information, etc. You should also avoid embarrassing or user-unfriendly campaign names like 'utm_campaign=lastditchretentionpitch' or 'utm_campaign=22-25femaletransgenderdogowners'.</p>
+
+    <h3>To be determined: utm_term</h3>
+    <p>Most advice is to never use this for non-search traffic because anything you put here shows up in your keyword reports. However you may want to try using this parameter in certain mediums like email and display to indicate what product SKU or product ID (e.g. product id 1093484) a user clicked on. These numbers are easily ignored or filtered out of keyword reports, and it’s particularly useful if you have an email newsletter containing multiple products — you can now see if users are buying the product they clicked on.</p>
+
+    <h3>Keep it consistent</h3>
+    <p>More important than what naming convention you pick, is to consistently stick with whatever you choose, and enforce it mercilessly. Once recorded, the parameters can never be overwritten or re-recorded so you’re stuck with them. If you make a change you’ll end up with a big discontinuity in your data which will make it difficult to do any year-on-year analysis and increase the likelihood of making a mistake. I advise picking a specific member of the team (if possible) that generates all tracking codes for URLs and maintains them in a spreadsheet. Anyone caught straying gets hung, drawn and quartered. Mercilessly.</p>
+
+    <p>If you have any questions, issues or want to add your own best practices, feel free to <%= link_to "contact me personally", "https://twitter.com/2michaeltaylor", target: "_blank" %>.</p>
+
+    <hr>
+
+    <a href='#top'>Back to Top &#94;</a>
+
+
   </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">utm_source*</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputSource" placeholder="What publisher or network is serving your ads?" required >
-      <span class="help-block">e.g. 'facebook', 'google', 'buzzfeed', 'mailchimp' or 'buffer'
-<!--       	<button class="btn btn-default btn-s"><span>facebook</span></button>
-      	<button class="btn btn-default btn-s"><span>twitter</span></button>
-      	<button class="btn btn-default btn-s"><span>google</span></button>
-      	<button class="btn btn-default btn-s"><span>bing</span></button>
-      	<button class="btn btn-default btn-s"><span>criteo</span></button>
-      	<button class="btn btn-default btn-s"><span>newsletter</span></button>
-      	<button class="btn btn-default btn-s"><span>powereditor</span></button>
-      	<button class="btn btn-default btn-s"><span>adwords</span></button>
-      	<button class="btn btn-default btn-s"><span>adcenter</span></button>
-      	<button class="btn btn-default btn-s"><span>buffer</span></button>
-      	<button class="btn btn-default btn-s"><span>mailchimp</span></button> -->
-      </span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">utm_medium*</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputMedium" placeholder="What marketing channel is this?" required >
-      <span class="help-block">e.g. 'social', 'email', 'video', 'display', 'affiliate', 'cpm', 'cpc' or 'cpa'
-<!--       	<button class="btn btn-default btn-s"><span>social</span></button>
-      	<button class="btn btn-default btn-s"><span>email</span></button>
-      	<button class="btn btn-default btn-s"><span>display</span></button>
-      	<button class="btn btn-default btn-s"><span>retargeting</span></button>  	
-      	<button class="btn btn-default btn-s"><span>search</span></button>
-      	<button class="btn btn-default btn-s"><span>affiliate</span></button>
-      	<button class="btn btn-default btn-s"><span>video</span></button>
-      	<button class="btn btn-default btn-s"><span>cpm</span></button>
-      	<button class="btn btn-default btn-s"><span>cpc</span></button>
-      	<button class="btn btn-default btn-s"><span>cpa</span></button> -->
-      </span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">utm_campaign*</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputCampaign" placeholder="What is this campaign promoting?" required >
-      <span class="help-block">e.g. '20pc+off+code', 'new+product+launch', 'sweepstakes+maldives' or 'pid:03839129'</span>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="dateYes" data-date="<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %>" checked > Add time and date?
-          <span class="help-block">e.g. '&utm_campaign=new+product+launch<em id="inputDate" >-<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %></em>'</span>
-        </label>
+  <div class="tab-pane active" id="tool">
+
+    <br><br>
+
+    <form class="form-horizontal" role="form" onsubmit="return false;" >
+    	<div class="form-group">
+        <label class="col-sm-2 control-label">URL*</label>
+        <div class="col-sm-10">
+          <input type="url" class="form-control" id="inputURL" placeholder="What landing page will users land on?" autofocus >
+          <span class="help-block">e.g. 'http://www.yourwebsite.com/yourlandingpage'</span>
+        </div>
       </div>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">utm_source*</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputSource" placeholder="What publisher or network is serving your ads?" required >
+          <span class="help-block">
+          	<button class="btn btn-default btn-s" onclick="pushButton('facebook')"><span>facebook</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('twitter')"><span>twitter</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('google')"><span>google</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('bing')"><span>bing</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('criteo')"><span>criteo</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('newsletter')"><span>newsletter</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('powereditor')"><span>powereditor</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('adwords')"><span>adwords</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('adcenter')"><span>adcenter</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('buffer')"><span>buffer</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('mailchimp')"><span>mailchimp</span></button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">utm_medium*</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputMedium" placeholder="What marketing channel is this?" >
+          <span class="help-block">
+          	<button class="btn btn-default btn-s" onclick="pushButton('social')"><span>social</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('email')"><span>email</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('display')"><span>display</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('retargeting')"><span>retargeting</span></button>  	
+          	<button class="btn btn-default btn-s" onclick="pushButton('search')"><span>search</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('affiliate')"><span>affiliate</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('video')"><span>video</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('cpm')"><span>cpm</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('cpc')"><span>cpc</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('cpa')"><span>cpa</span></button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">utm_campaign*</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputCampaign" placeholder="What is this campaign promoting?" >
+          <span class="help-block">e.g. '20pc+off+code', 'new+product+launch', 'sweepstakes+maldives' or 'pid:03839129'</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="dateYes" data-date="<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %>" checked > Add time and date?
+              <span class="help-block">e.g. '&utm_campaign=new+product+launch<em id="inputDate" >-<%= Time.now.strftime("%Y-%b-%d-%a-%H:%M") %></em>'</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">utm_content</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputContent" placeholder="What type of ad format is this?" >
+          <span class="help-block">
+          	<button class="btn btn-default btn-s" onclick="pushButton('300x250')"><span>300x250</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('728x90')"><span>728x90</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('160x600')"><span>160x600</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('336x280')"><span>336x280</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('300x600')"><span>300x600</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('120x600')"><span>120x600</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('timeline')"><span>timeline</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('rightrail')"><span>rightrail</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('link')"><span>link</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('text')"><span>text</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('blogpost')"><span>blogpost</span></button>
+          	<button class="btn btn-default btn-s" onclick="pushButton('trueview')"><span>trueview</span></button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">utm_term</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputTerm" placeholder="What keyword did users search for?" >
+          <span class="help-block">e.g. 'red+dress', 'cheap+flights+to+alicante' or 'marketing+automation+software'</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary btn-lg" onclick="trackLink();" >Track Link</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <h3>Output:</h3>
+          <p class="well" id="output" ><span class="text-muted">This is where your Tracked Link will appear<span></p>
+          <a href='#top'>Back to Top &#94;</a>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">utm_content</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputContent" placeholder="What type of ad format is this?" >
-      <span class="help-block">e.g. '300x250', '728x90', 'link', 'timeline', 'rightrail' or 'blogpost'
-<!--       	<button class="btn btn-default btn-s"><span>300x250</span></button>
-      	<button class="btn btn-default btn-s"><span>728x90</span></button>
-      	<button class="btn btn-default btn-s"><span>160x600</span></button>
-      	<button class="btn btn-default btn-s"><span>336x280</span></button>
-      	<button class="btn btn-default btn-s"><span>300x600</span></button>
-      	<button class="btn btn-default btn-s"><span>120x600</span></button>
-      	<button class="btn btn-default btn-s"><span>timeline</span></button>
-      	<button class="btn btn-default btn-s"><span>rightrail</span></button>
-      	<button class="btn btn-default btn-s"><span>link</span></button>
-      	<button class="btn btn-default btn-s"><span>text</span></button>
-      	<button class="btn btn-default btn-s"><span>blogpost</span></button>
-      	<button class="btn btn-default btn-s"><span>trueview</span></button> -->
-      </span>
-    </div>
+<!--   <div class="tab-pane" id="code">
+
   </div>
-  <div class="form-group">
-    <label class="col-sm-2 control-label">utm_term</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputTerm" placeholder="What keyword did users search for?" >
-      <span class="help-block">e.g. 'red+dress', 'cheap+flights+to+alicante' or 'marketing+automation+software'</span>
-    </div>
+  <div class="tab-pane" id="howto">
+
   </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-lg" onclick="trackLink();" >Track Link</button>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <h3>Output:</h3>
-      <p class="well" id="output" ><span class="text-muted">This is where your Tracked Link will appear<span></p>
-      <a href='#top'>Back to Top &#94;</a>
-    </div>
-  </div>
-</form>
+  <div class="tab-pane" id="comments">
+
+  </div> -->
+</div>
 
 <%= javascript_tag do %>
+
+$('#tabs a[href="#tool"]').tab('show');
+
+function pushButton(value){
+
+  var sources = ['facebook', 'google', 'bing', 'twitter', 'criteo', 'newsletter', 'powereditor', 'adwords', 'adcenter', 'buffer', 'mailchimp'];
+  var mediums = ['social', 'email', 'display', 'retargeting', 'search', 'affiliate', 'video', 'cpm', 'cpc', 'cpa'];
+  var contents = ['300x250', '728x90', '160x600', '336x280', '300x600', '120x600', 'timeline', 'rightrail', 'link', 'text', 'blogpost', 'trueview'];
+
+  var sourcesLength = sources.length;
+  var mediumsLength = mediums.length;
+  var contentsLength = contents.length;
+
+  for (var i = 0; i < sourcesLength; i++) {
+    if (value == sources[i]) {
+      var source = document.getElementById('inputSource');
+      source.value = value;
+      return;
+    }
+  }
+
+  for (var j = 0; j < mediumsLength; j++) {
+    if (value == mediums[j]) {
+      var medium = document.getElementById('inputMedium');
+      medium.value = value;
+      return;
+    }
+  }
+
+  for (var k = 0; k < contentsLength; k++) {
+    if (value == contents[k]) {
+      var content = document.getElementById('inputContent');
+      content.value = value;
+      return;
+    } 
+  }
+}
 
 function trackLink() {
   
@@ -123,13 +242,18 @@ function trackLink() {
   var date = document.getElementById("dateYes").getAttribute('data-date');
 
   // Replace spaces and underscores with correct characters
-  source = source.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
-  medium = medium.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
-  campaign = campaign.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
-  content = content.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
-  term = term.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, '').replace(/\?/g, '');
+  source = source.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, 'pc').replace(/\?/g, '');
+  medium = medium.replace(/\s/g,'-').replace(/_/g, '-').replace(/\&/g, '').replace(/\%/g, 'pc').replace(/\?/g, '');
+  campaign = campaign.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, 'pc').replace(/\?/g, '');
+  content = content.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, 'pc').replace(/\?/g, '');
+  term = term.replace(/\s/g,'+').replace(/_/g, '+').replace(/\&/g, '').replace(/\%/g, 'pc').replace(/\?/g, '');
 
   var output = document.getElementById("output");
+
+  if (url=="" || source=="" || medium=="" || campaign=="") {
+    output.innerHTML="URL, Source, Medium and Campaign are <em>mandatory</em>!";
+    return;
+  }
 
   var finished = "";
 
@@ -161,7 +285,7 @@ function trackLink() {
   }
 
   // Clean dissallowed characters from output
-  finished = finished.replace(/\$/g, '').replace(/\£/g, '').replace(/\€/g, '');
+  finished = finished.replace(/\$/g, 'USD').replace(/\£/g, 'GBP').replace(/\€/g, 'EUR');
 
   // Display output
   output.innerHTML=finished;
