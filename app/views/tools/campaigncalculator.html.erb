@@ -1,0 +1,160 @@
+<% content_for :title do %>Campaign Calculator by OpenAdTools<% end %>
+<% content_for :description do %>Quickly calculate the performance of your marketing campaigns and paste the data straight into Excel.<% end %>
+<% content_for :tweet do %>"Use Campaign Calculator by @OpenAdTools to calculate the performance of your #marketing campaigns => http://bit.ly/OpenAdTools"<% end %>
+
+<div class="page-header">
+  <h1>Campaign Calculator</h1>
+  <p class="lead">Quickly calculate the performance of your marketing campaigns and paste the data straight into Excel.</p>
+</div>
+
+<form onsubmit="return false;" class="form">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+        <div>
+            <input type="text" id="inputImpressions" value="19233" placeholder="Impressions">
+            <label for="inputImpressions">Impressions</label>
+        </div>
+        <div>
+            <input type="text" id="inputCost" value="256.23" placeholder="Cost">
+            <label for="inputCost">Cost</label>
+        </div>
+        <div>
+          <input type="text" id="inputClicks" value="2102" placeholder="Clicks">
+          <label for="inputClicks">Clicks</label>
+        </div>
+        <div>
+            <input type="text" id="inputConversions" value="145" placeholder="Conversions">
+            <label for="inputConversions">Conversions</label>
+        </div>
+        <div>
+            <input type="text" id="inputRevenue" value="782.14" placeholder="Revenue">
+            <label for="inputRevenue">Revenue</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+            <input type="checkbox" id="base">Base Stats?
+        </div>
+        <div>
+            <input type="checkbox" id="ctr" checked >CTR
+            <input type="checkbox" id="convRate" checked >Conv. Rate
+            <input type="checkbox" id="cpc" checked >CPC
+            <input type="checkbox" id="rpc" checked >RPC
+            <input type="checkbox" id="roi" checked >ROI
+        </div>
+        <div>
+            <input type="checkbox" id="convVal" >Avg. Conv. Value
+            <input type="checkbox" id="cpa" >CPA
+            <input type="checkbox" id="cpm" >CPM    
+            <input type="checkbox" id="rpm" >RPM
+        </div>
+        <div>
+            <input type="checkbox" id="roas" >ROAS
+            <input type="checkbox" id="profit" >Profit
+            <input type="checkbox" id="margin" >Margin
+        </div>
+      </div>
+      <button class="submit btn btn-primary btn-lg" onclick="calcPerformance();" >Calculate Performance</button>
+    </div>
+    <div class="panel-footer">
+      <textarea rows="10" cols="40" id="output"></textarea>
+    </div>
+  </div>
+</form>
+
+
+
+<%= javascript_tag do %>
+
+function calcPerformance() {
+    var impressions = document.getElementById('inputImpressions').value;
+    var cost = document.getElementById('inputCost').value;
+    var clicks = document.getElementById('inputClicks').value;
+    var conversions = document.getElementById('inputConversions').value;
+    var revenue = document.getElementById('inputRevenue').value;
+    
+    var base = document.getElementById('base').checked;
+    var ctr = document.getElementById('ctr').checked;
+    var convRate = document.getElementById('convRate').checked;
+    var cpc = document.getElementById('cpc').checked;
+    var rpc = document.getElementById('rpc').checked;
+    var roi = document.getElementById('roi').checked;
+    var convVal = document.getElementById('convVal').checked;
+    var cpa = document.getElementById('cpa').checked;
+    var cpm = document.getElementById('cpm').checked;
+    var rpm = document.getElementById('rpm').checked;
+    var roas = document.getElementById('roas').checked;
+    var profit = document.getElementById('profit').checked;
+    var margin = document.getElementById('margin').checked;
+        
+    var output = document.getElementById('output');
+    
+    var value = "";
+    
+    if (base) {
+        value += 
+            "Impressions:\t" + impressions
+            + "\n" +
+            "Cost:\t" + cost
+            + "\n" +
+            "Clicks:\t" + clicks
+            + "\n" +
+            "Conversions:\t" + conversions
+            + "\n" +
+            "Revenue:\t" + revenue
+            + "\n";
+    }
+    if (ctr) {
+        value += "CTR:\t" + (clicks / impressions * 100).toFixed(2) + "%" 
+        + "\n";
+    }
+    if (convRate) {
+        value += "Conv. Rate:\t" + (conversions / clicks * 100).toFixed(2) + "%" 
+        + "\n";
+    }
+    if (cpc) {
+        value += "CPC:\t" + (cost / clicks).toFixed(2)
+        + "\n";
+    }
+    if (rpc) {
+        value += "RPC:\t" + (revenue / clicks).toFixed(2)
+        + "\n";
+    }
+    if (roi) {
+        value += "ROI:\t" + (revenue / cost * 100).toFixed(0) + "%"
+        + "\n";
+    }
+    if (convVal) {
+        value += "Avg. Conv. Value:\t" + (revenue / conversions).toFixed(2)
+        + "\n";
+    }
+    if (cpa) {
+        value += "CPA:\t" + (cost / conversions).toFixed(2)
+        + "\n";
+    }
+    if (cpm) {
+        value += "CPM:\t" + (cost / impressions * 1000).toFixed(2)
+        + "\n";
+    }
+    if (rpm) {
+        value += "RPM:\t" + (revenue / impressions * 1000).toFixed(2)
+        + "\n";
+    }
+    if (roas) {
+        value += "ROAS:\t" + (revenue / cost).toFixed(2)
+        + "\n";
+    }
+    if (profit) {
+        value += "Profit:\t" + (revenue - cost).toFixed(2)
+        + "\n";
+    }
+    if (margin) {
+        value += "Margin:\t" + ((revenue - cost)/revenue*100).toFixed(0) + "%"
+        + "\n";
+    }
+        
+    output.value = value;
+};
+
+<% end %>

@@ -58,4 +58,7 @@ class ToolsController < ApplicationController
 
   def adsizes
   end
+
+  def campaigncalculator
+  end
 end

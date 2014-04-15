@@ -23,6 +23,7 @@ Openadtools::Application.routes.draw do
   get "follower-finder", to: "tools#followerfinder", as: "followerfinder"
   get "tab-to-csv", to: "tools#tabtocsv", as: "tabtocsv"
   get "ad-sizes", to: "tools#adsizes", as: "adsizes"
+  get "campaign-calculator", to: "tools#campaigncalculator", as: "campaigncalculator"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
