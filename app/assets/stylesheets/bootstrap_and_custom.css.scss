@@ -58,7 +58,7 @@ html, body {
 	margin-top: 0px;
 }
 
-.panel {
+.home-panel {
 	color: $text-color;
 	&:hover {
 		color: darken($text-color, 50%);
@@ -88,3 +88,4 @@ em {
 }
 
 .indent {text-indent:40px;}
+.center {text-align:center;}

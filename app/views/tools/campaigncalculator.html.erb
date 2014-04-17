@@ -9,32 +9,45 @@
 
 <form onsubmit="return false;" class="form">
   <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title center">Raw Campaign Stats</h3>
+    </div>
     <div class="panel-body">
       <div class="form-group">
         <div>
-            <input type="text" id="inputImpressions" value="19233" placeholder="Impressions">
+            <input type="text" id="inputImpressions" value="100000">
             <label for="inputImpressions">Impressions</label>
         </div>
         <div>
-            <input type="text" id="inputCost" value="256.23" placeholder="Cost">
+            <input type="text" id="inputCost" value="200.00">
             <label for="inputCost">Cost</label>
         </div>
         <div>
-          <input type="text" id="inputClicks" value="2102" placeholder="Clicks">
+          <input type="text" id="inputClicks" value="675">
           <label for="inputClicks">Clicks</label>
         </div>
         <div>
-            <input type="text" id="inputConversions" value="145" placeholder="Conversions">
+            <input type="text" id="inputConversions" value="15">
             <label for="inputConversions">Conversions</label>
         </div>
         <div>
-            <input type="text" id="inputRevenue" value="782.14" placeholder="Revenue">
+            <input type="text" id="inputRevenue" value="300">
             <label for="inputRevenue">Revenue</label>
         </div>
       </div>
-      <div class="form-group">
+    </div>
+    <div class="panel-footer center">
+      <button class="submit btn btn-primary btn-lg" onclick="calcPerformance();" >Calculate Performance</button>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title center">Campaign Performance</h3>
+    </div>
+    <div class="panel-body">
+      <div class="form-group center">
         <div>
-            <input type="checkbox" id="base">Base Stats?
+            <input type="checkbox" id="base"> Base Stats? 
         </div>
         <div>
             <input type="checkbox" id="ctr" checked >CTR
@@ -44,25 +57,20 @@
             <input type="checkbox" id="roi" checked >ROI
         </div>
         <div>
-            <input type="checkbox" id="convVal" >Avg. Conv. Value
-            <input type="checkbox" id="cpa" >CPA
+            <input type="checkbox" id="convVal" >Avg. Conv. Value 
+            <input type="checkbox" id="cpa" >CPA 
             <input type="checkbox" id="cpm" >CPM    
-            <input type="checkbox" id="rpm" >RPM
+            <input type="checkbox" id="rpm" >RPM 
         </div>
         <div>
-            <input type="checkbox" id="roas" >ROAS
-            <input type="checkbox" id="profit" >Profit
-            <input type="checkbox" id="margin" >Margin
+            <input type="checkbox" id="roas" >ROAS 
+            <input type="checkbox" id="profit" >Profit 
+            <input type="checkbox" id="margin" >Margin 
         </div>
       </div>
-      <button class="submit btn btn-primary btn-lg" onclick="calcPerformance();" >Calculate Performance</button>
-    </div>
-    <div class="panel-footer">
-      <textarea rows="10" cols="40" id="output"></textarea>
-    </div>
+      <textarea rows="10" cols="40" id="output"></textarea></div>
   </div>
 </form>
-
 
 
 <%= javascript_tag do %>
