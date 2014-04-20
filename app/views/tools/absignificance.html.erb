@@ -67,26 +67,50 @@ function calcSignificance() {
     var conC = document.getElementById('inputConC').value;
     var visT = document.getElementById('inputVisT').value;
     var conT = document.getElementById('inputConT').value;
-        
+
     var output = document.getElementById('output');
-    
+
     var value = "Still working on the formula... sorry!";
 
     var convRateC = conC / visC;
     var convRateT = conT / visT;
 
-    var diffInConvRate = (convRateT - convRateC)/convRateC;
+    var diffInConvRate = (convRateT - convRateC) / convRateC;
 
-    var stdErrorC = Math.sqrt(convRateC * (1-convRateC) / visC);
-    var stdErrorT = Math.sqrt(convRateT * (1-convRateT) / visT);
+    var stdErrorC = Math.sqrt(convRateC * (1 - convRateC) / visC);
+    var stdErrorT = Math.sqrt(convRateT * (1 - convRateT) / visT);
 
     var confIntC = 1.96 * stdErrorC;
     var confIntT = 1.96 * stdErrorT;
 
-    var zScore = (convRateC-convRateT) / Math.sqrt( Math.pow(stdErrorC) + Math.pow(stdErrorT));
+    var zScore = (convRateC - convRateT) / Math.sqrt(Math.pow(stdErrorC) + Math.pow(stdErrorT));
 
     var pValue = "";
-            
+
+    if (zScore < -6.5) {
+        pValue = 0;
+    }
+    else if (zScore > 6.5) {
+        pValue = 1;
+    } else {
+        var factK = 1;
+        var sum = 0;
+        var term = 1;
+        var k = 0;
+        var loopStop = Math.exp(-23);
+
+        while (Math.abs(term) > loopStop) {
+            term = 0.3989422804 * Math.pow(-1, k) * Math.pow(zScore, k) / (2 * k + 1) / Math.pow(2, k) * Math.pow(zScore, k + 1) / factK;
+            sum += term;
+            k++;
+            factK *= k;
+        }
+        sum += 0.5;
+        pValue = sum * 100;
+    }
+
+    value = "P Value is: " + pValue;
+
     output.innerHTML = value;
 };
 
