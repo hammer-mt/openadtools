@@ -83,7 +83,7 @@ function calcSignificance() {
     var confIntC = 1.96 * stdErrorC;
     var confIntT = 1.96 * stdErrorT;
 
-    var zScore = (convRateC - convRateT) / Math.sqrt(Math.pow(stdErrorC) + Math.pow(stdErrorT));
+    var zScore = (convRateC - convRateT) / Math.sqrt(Math.pow(stdErrorC,2) + Math.pow(stdErrorT,2));
 
     var pValue = "";
 
@@ -109,7 +109,7 @@ function calcSignificance() {
         pValue = sum * 100;
     }
 
-    value = "P Value is: " + pValue;
+    value = "P Value is: " + pValue.toFixed(2);
 
     output.innerHTML = value;
 };
