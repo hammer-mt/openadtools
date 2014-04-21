@@ -50,7 +50,7 @@
 
   <div class="panel panel-default float-left">
     <div class="panel-heading">
-      <h3 class="panel-title center">Statistically Significant?</h3>
+      <h3 class="panel-title center" id="output-header">Statistically Significant?</h3>
     </div>
     <div class="panel-body center">
       <div id="output">
@@ -63,55 +63,76 @@
 <%= javascript_tag do %>
 
 function calcSignificance() {
-    var visC = document.getElementById('inputVisC').value;
-    var conC = document.getElementById('inputConC').value;
-    var visT = document.getElementById('inputVisT').value;
-    var conT = document.getElementById('inputConT').value;
+  var visC = document.getElementById('inputVisC').value;
+  var conC = document.getElementById('inputConC').value;
+  var visT = document.getElementById('inputVisT').value;
+  var conT = document.getElementById('inputConT').value;
 
-    var output = document.getElementById('output');
+  var output = document.getElementById('output');
+  var outputHeader = document.getElementById('output-header');
 
-    var value = "Still working on the formula... sorry!";
+  var convRateC = conC / visC;
+  var convRateT = conT / visT;
 
-    var convRateC = conC / visC;
-    var convRateT = conT / visT;
+  var diffInConvRate = (convRateT - convRateC) / convRateC * 100;
 
-    var diffInConvRate = (convRateT - convRateC) / convRateC;
+  var stdErrorC = Math.sqrt(convRateC * (1 - convRateC) / visC);
+  var stdErrorT = Math.sqrt(convRateT * (1 - convRateT) / visT);
 
-    var stdErrorC = Math.sqrt(convRateC * (1 - convRateC) / visC);
-    var stdErrorT = Math.sqrt(convRateT * (1 - convRateT) / visT);
+  var confIntC = 1.96 * stdErrorC;
+  var confIntT = 1.96 * stdErrorT;
 
-    var confIntC = 1.96 * stdErrorC;
-    var confIntT = 1.96 * stdErrorT;
+  var zScore = (convRateC - convRateT) / Math.sqrt(Math.pow(stdErrorC,2) + Math.pow(stdErrorT,2));
 
-    var zScore = (convRateC - convRateT) / Math.sqrt(Math.pow(stdErrorC,2) + Math.pow(stdErrorT,2));
+  var pValue = "";
 
-    var pValue = "";
+  var factK = 1;
+  var sum = 0;
+  var term = 1;
+  var k = 0;
+  var loopStop = Math.exp(-23);
 
-    if (zScore < -6.5) {
-        pValue = 0;
-    }
-    else if (zScore > 6.5) {
-        pValue = 1;
+  while (Math.abs(term) > loopStop) {
+    term = 0.3989422804 * Math.pow(-1, k) * Math.pow(zScore, k) / (2 * k + 1) / Math.pow(2, k) * Math.pow(zScore, k + 1) / factK;
+    sum += term;
+    k++;
+    factK *= k;
+  }
+  sum += 0.5;
+  pValue = sum * 100;
+
+  var bodyOutput = "";
+
+  var usersNeeded = "";
+
+  var E = convRateT - convRateC;
+
+  // Can't figure out this formula yet... http://vuurr.com/split-testing-determine-sample-size/
+  var stdDev = (conC+conT) / (visC+visT); 
+  var N = Math.pow(((1.64*stdDev) / E ), 2);
+
+  if (pValue <= 5 || pValue >= 95) {
+    outputHeader.innerHTML = "YES!";
+
+    bodyOutput = "<p>The test is statistically significant.</p>";
+
+    if (pValue <= 5) {
+      bodyOutput += "<p>We are <em>"+(100-pValue).toFixed(2)+"%</em> sure that ";
     } else {
-        var factK = 1;
-        var sum = 0;
-        var term = 1;
-        var k = 0;
-        var loopStop = Math.exp(-23);
-
-        while (Math.abs(term) > loopStop) {
-            term = 0.3989422804 * Math.pow(-1, k) * Math.pow(zScore, k) / (2 * k + 1) / Math.pow(2, k) * Math.pow(zScore, k + 1) / factK;
-            sum += term;
-            k++;
-            factK *= k;
-        }
-        sum += 0.5;
-        pValue = sum * 100;
+      bodyOutput += "<p>We are <em>"+pValue.toFixed(2)+"%</em> sure that ";
     }
 
-    value = "P Value is: " + pValue.toFixed(2);
+    if (diffInConvRate > 0) {
+      bodyOutput += "the test variation performs <strong>"+diffInConvRate.toFixed(2)+"%</strong> better.</p>";
+    } else {
+      bodyOutput += "the test variation performs <strong>"+Math.abs(diffInConvRate).toFixed(2)+"%</strong> worse.</p>";
+    }
 
-    output.innerHTML = value;
+  } else {
+    outputHeader.innerHTML = "Not Statistically Significant";
+    bodyOutput = "Keep running the test.";
+  }
+  output.innerHTML = bodyOutput;
 };
 
 <% end %>
