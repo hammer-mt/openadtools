@@ -3,7 +3,7 @@
 <% content_for :tweet do %>"Use A/B Significance by @OpenAdTools to calculate the statistical significance of your A/B Tests => http://bit.ly/OpenAdTools"<% end %>
 
 <div class="page-header">
-  <h1>Campaign Calculator</h1>
+  <h1>A/B Significance</h1>
   <p class="lead">Calculate the statistical significance of A/B Tests with the click of a button.</p>
 </div>
 
@@ -87,6 +87,7 @@ function calcSignificance() {
 
   var pValue = "";
 
+  // Convert Z Score into P Value
   var factK = 1;
   var sum = 0;
   var term = 1;
@@ -104,7 +105,7 @@ function calcSignificance() {
 
   var bodyOutput = "";
 
-  var usersNeeded = "X";
+  var usersNeeded = (26 * Math.pow(Math.sqrt(convRateC * (1 - convRateC)) / (convRateC * diffInConvRate) , 2));
 
   // Calculate statistical significance
   if (pValue <= 5 || pValue >= 95) {
@@ -112,10 +113,10 @@ function calcSignificance() {
 
     bodyOutput = "<p class='center'>The test is statistically significant.</p>";
 
-    if (pValue <= 5) {
-      bodyOutput += "<p class='center'>We are <em>"+(100-pValue).toFixed(2)+"%</em> sure that ";
-    } else if (pValue >= 100) {
+    if (pValue >= 99.99 || pValue <= 0.01) {
       bodyOutput += "<p class='center'>We are close to <em>100%</em> sure that ";
+    } else if (pValue <= 5) {
+      bodyOutput += "<p class='center'>We are <em>"+(100-pValue).toFixed(2)+"%</em> sure that ";
     } else {
       bodyOutput += "<p class='center'>We are <em>"+pValue.toFixed(2)+"%</em> sure that ";
     }
@@ -134,9 +135,9 @@ function calcSignificance() {
 
   } else {
     outputHeader.innerHTML = "Not Statistically Significant";
-    bodyOutput = "<p class='center'>So far we are only <em>"+pValue.toFixed(2)+"%</em> sure that the <strong>"+diffInConvRate.toFixed(2)+"%</strong> difference in conversion rate isn't just due to random noise in the data.";
+    bodyOutput = "<p class='center'>So far we can only be <em>"+pValue.toFixed(2)+"%</em> sure that the <strong>"+diffInConvRate.toFixed(2)+"%</strong> difference in conversion rate is significant.";
     bodyOutput += "<hr>";
-    bodyOutput += "<p class='center'>Keep running the test until "+usersNeeded+" more visitors have been exposed.";
+    bodyOutput += "<p class='center'>Keep running the test until "+(usersNeeded*1000).toFixed(0)+" more visitors have seen each test variation.";
   }
   output.innerHTML = bodyOutput;
 };
