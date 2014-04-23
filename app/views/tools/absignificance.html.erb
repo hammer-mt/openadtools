@@ -33,7 +33,7 @@
       <div class="panel-body">
         <div class="form-group">
           <div>
-              <input type="text" id="inputVisT" value="3000">
+              <input type="text" id="inputVisT" value="2000">
               <label for="inputVisT">Visitors</label>
           </div>
           <div>
@@ -52,13 +52,14 @@
     <div class="panel-heading">
       <h3 class="panel-title center" id="output-header">Statistically Significant?</h3>
     </div>
-    <div class="panel-body center">
+    <div class="panel-body">
       <div id="output">
         Enter your test results, then click the 'Calculate Significance' button.
       </div>
     </div>
   </div>
 </form>
+
 
 <%= javascript_tag do %>
 
@@ -103,23 +104,20 @@ function calcSignificance() {
 
   var bodyOutput = "";
 
-  var usersNeeded = "";
+  var usersNeeded = "X";
 
-  var E = convRateT - convRateC;
-
-  // Can't figure out this formula yet... http://vuurr.com/split-testing-determine-sample-size/
-  var stdDev = (conC+conT) / (visC+visT); 
-  var N = Math.pow(((1.64*stdDev) / E ), 2);
-
+  // Calculate statistical significance
   if (pValue <= 5 || pValue >= 95) {
     outputHeader.innerHTML = "YES!";
 
-    bodyOutput = "<p>The test is statistically significant.</p>";
+    bodyOutput = "<p class='center'>The test is statistically significant.</p>";
 
     if (pValue <= 5) {
-      bodyOutput += "<p>We are <em>"+(100-pValue).toFixed(2)+"%</em> sure that ";
+      bodyOutput += "<p class='center'>We are <em>"+(100-pValue).toFixed(2)+"%</em> sure that ";
+    } else if (pValue >= 100) {
+      bodyOutput += "<p class='center'>We are close to <em>100%</em> sure that ";
     } else {
-      bodyOutput += "<p>We are <em>"+pValue.toFixed(2)+"%</em> sure that ";
+      bodyOutput += "<p class='center'>We are <em>"+pValue.toFixed(2)+"%</em> sure that ";
     }
 
     if (diffInConvRate > 0) {
@@ -128,9 +126,17 @@ function calcSignificance() {
       bodyOutput += "the test variation performs <strong>"+Math.abs(diffInConvRate).toFixed(2)+"%</strong> worse.</p>";
     }
 
+    bodyOutput += "<hr>";
+    bodyOutput += "<p>Control Conv. Rate: <strong>"+(convRateC*100).toFixed(2)+"%</strong><small> &plusmn; "+(stdErrorC*100).toFixed(2)+"</small></p>";
+    bodyOutput += "<p>Test Conv. Rate: <strong>"+(convRateT*100).toFixed(2)+"%</strong><small> &plusmn; "+(stdErrorT*100).toFixed(2)+"</small></p>";
+    bodyOutput += "<p>Difference: <strong>"+diffInConvRate.toFixed(2)+"%</strong></p>";
+    bodyOutput += "<p>P Value: <strong>"+(100-pValue).toFixed(2)+"</strong></p>";
+
   } else {
     outputHeader.innerHTML = "Not Statistically Significant";
-    bodyOutput = "Keep running the test.";
+    bodyOutput = "<p class='center'>So far we are only <em>"+pValue.toFixed(2)+"%</em> sure that the <strong>"+diffInConvRate.toFixed(2)+"%</strong> difference in conversion rate isn't just due to random noise in the data.";
+    bodyOutput += "<hr>";
+    bodyOutput += "<p class='center'>Keep running the test until "+usersNeeded+" more visitors have been exposed.";
   }
   output.innerHTML = bodyOutput;
 };
