@@ -61,4 +61,7 @@ class ToolsController < ApplicationController
 
   def campaigncalculator
   end
+
+  def budgetrunrate
+  end
 end

@@ -1,0 +1,91 @@
+<% content_for :title do %>Budget RunRate by OpenAdTools<% end %>
+<% content_for :description do %>Calculate how long your budget will last at the current run rate.<% end %>
+<% content_for :tweet do %>"Use Budget RunRate by @OpenAdTools to calculate how long your budget will last => http://bit.ly/OpenAdTools"<% end %>
+
+<div class="page-header">
+  <h1>Budget RunRate</h1>
+  <p class="lead">Calculate how long your budget will last at the current run rate.</p>
+</div>
+
+<form onsubmit="return false;" class="form">
+  <div class="float-left">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title center">Spend So Far</h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <div>
+            <input type="date" id="start">
+            <label for="start">Budget Start</label>
+          </div>
+          <div>
+            <input type="text" id="budget">
+            <label for="budget">Budget</label>
+          </div>
+          <div>
+            <input type="text" id="spent">
+            <label for="spent">Spent So Far</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="submit btn btn-primary btn-lg" onclick="calcRunRate();" >Calculate RunRate</button>
+    </div>
+  </div>
+  <div id="output"></div>
+</form>
+
+<%= javascript_tag do %>
+
+var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+var today = new Date();
+
+function calcRunRate() {
+  var output = document.getElementById('output');
+  output.className = "panel panel-default float-left";
+
+  var spent = document.getElementById('spent').value;
+  var start = document.getElementById('start').value;
+  var budget = document.getElementById('budget').value;
+  var results = "";
+
+  var startDate = new Date(start);
+
+  var dateDiff = dateDiffInDays(startDate, today);
+  var budgetLeft = budget - spent;
+  var runRate = spent / dateDiff;
+  var daysLeft = Math.floor(budgetLeft / runRate);
+
+  results += "<div class='panel-heading'><h3 class='panel-title center'>Budget RunRate</h3></div>";
+
+  results += "<div class='panel-body'>"
+
+  results += "<p>Spend Per Day: <strong>"+runRate.toFixed(2)+"</strong></p>";
+  results += "<p>Budget Left: <strong>"+budgetLeft+"</strong></p>";
+  results += "<p><strong>"+daysLeft+"</strong> Days Left at current run rate.</p>";
+
+  results += "</div>";
+
+  if (!spent || !start) {
+    results = "Please enter a valid budget start date and spend so far";
+    alert("Please enter a valid budget start date and spend so far");
+  }
+
+  output.innerHTML = results;
+
+};
+
+
+// a and b are javascript Date objects
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
+
+<% end %>

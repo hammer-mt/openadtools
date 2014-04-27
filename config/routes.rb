@@ -24,6 +24,7 @@ Openadtools::Application.routes.draw do
   get "tab-to-csv", to: "tools#tabtocsv", as: "tabtocsv"
   get "ad-sizes", to: "tools#adsizes", as: "adsizes"
   get "campaign-calculator", to: "tools#campaigncalculator", as: "campaigncalculator"
+  get "budget-runrate", to: "tools#budgetrunrate", as: "budgetrunrate"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
