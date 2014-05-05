@@ -99,13 +99,10 @@ function graph() {
 	dataset = document.getElementById('textinput').value.split("\n");
 	l = dataset.length;
 
-	svg.selectAll("rect").remove();
-	svg.selectAll("text").remove();
-
 	svg.selectAll("rect")
 	   .data(dataset)
-	   .enter()
-	   .append("rect")
+	   .transition()
+	   .duration(1000)
 	   .attr("x", function(d, i) {
 	      return i * (w / l);
 	    })
@@ -119,8 +116,8 @@ function graph() {
 
 	svg.selectAll("text")
    .data(dataset)
-   .enter()
-   .append("text")
+   .transition()
+	 .duration(1000)
    .text(function(d) {
       return d;
    })
