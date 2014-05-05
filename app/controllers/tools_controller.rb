@@ -19,4 +19,7 @@ class ToolsController < ApplicationController
 
   def budgetrunrate
   end
+
+  def barchart
+  end
 end
