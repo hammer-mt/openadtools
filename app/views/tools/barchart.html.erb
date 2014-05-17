@@ -46,7 +46,7 @@
 
 var w = 800; // Width
 var h = 200; // Height
-var p = 1;   // Padding
+var p = 2;   // Padding
 
 //Create SVG element
 var svg = d3.select("#chart")
@@ -57,7 +57,16 @@ var svg = d3.select("#chart")
 var dataset = document.getElementById('textinput').value.split("\n");
 // [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
 //  11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
 var l = dataset.length;
+
+for(var i=0; i<l; i++) { dataset[i] = +dataset[i]; }
+
+var dMax = d3.max(dataset, function(d) { return d; });
+
+var yScale = d3.scale.linear()
+                     .range([h, 0])                     
+                     .domain([0, dMax]);
 
 svg.selectAll("rect")
    .data(dataset)
@@ -67,11 +76,11 @@ svg.selectAll("rect")
       return i * (w / l);
     })
    .attr("y", function(d) {
-      return h - d * 4;
+      return yScale(d);
     })
    .attr("width", w / l - p)
    .attr("height", function(d) {
-      return d * 4;
+      return h - yScale(d);
     });
 
 // Create data labels
@@ -86,8 +95,9 @@ svg.selectAll("text")
       return i * (w / l) + (w / l - p) / 2;
     })
    .attr("y", function(d) {
-      return h - (d * 4) + 14;
+      return yScale(d) + 7;
     })
+   .attr("dy", ".75em")
    .attr("font-family", "sans-serif")
    .attr("font-size", "11px")
    .attr("fill", "white")
@@ -99,38 +109,40 @@ function graph() {
 	dataset = document.getElementById('textinput').value.split("\n");
 	l = dataset.length;
 
+  for(var i=0; i<l; i++) { dataset[i] = +dataset[i]; }
+
+  dMax = d3.max(dataset, function(d) { return d; });
+
+  yScale.domain([0, dMax]);
+
 	svg.selectAll("rect")
 	   .data(dataset)
 	   .transition()
 	   .duration(1000)
 	   .attr("x", function(d, i) {
-	      return i * (w / l);
-	    })
-	   .attr("y", function(d) {
-	      return h - d * 4;
-	    })
-	   .attr("width", w / l - p)
-	   .attr("height", function(d) {
-	      return d * 4;
-	    });
+        return i * (w / l);
+      })
+     .attr("y", function(d) {
+        return yScale(d);
+      })
+     .attr("width", w / l - p)
+     .attr("height", function(d) {
+        return h - yScale(d);
+      });
 
 	svg.selectAll("text")
-   .data(dataset)
-   .transition()
-	 .duration(1000)
-   .text(function(d) {
-      return d;
-   })
-   .attr("x", function(d, i) {
-      return i * (w / l) + (w / l - p) / 2;
-    })
-   .attr("y", function(d) {
-      return h - (d * 4) + 14;
-    })
-   .attr("font-family", "sans-serif")
-   .attr("font-size", "11px")
-   .attr("fill", "white")
-   .attr("text-anchor", "middle");
+     .data(dataset)
+     .transition()
+  	 .duration(1000)
+     .text(function(d) {
+        return d;
+     })
+     .attr("x", function(d, i) {
+        return i * (w / l) + (w / l - p) / 2;
+      })
+     .attr("y", function(d) {
+        return yScale(d) + 7;
+      });
 }
 
 
