@@ -1,11 +1,68 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar" role="navigation">
   <div class="container">
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <span class="glyphicon glyphicon-wrench"></span> OpenAdTools
-    <% end %>
-    <div class="nav navbar-nav">
-      <p><%= link_to "Open-Source Tools for Performance Marketers.", about_path , class: "navbar-text" %></p>
-    </div>
-    <a id="newsletter-signup" href="http://eepurl.com/TWJfL"><button type="button" class="btn btn-default navbar-btn navbar-right">Sign Up To Our Newsletter</button></a>
+  	<!-- Left Navbar -->
+  	<ul class="nav navbar-nav navbar-left">
+	  	<li class="navbar-brand">
+		    <%= link_to root_path do %>
+		    	<span class="glyphicon glyphicon-wrench"></span> OpenAdTools
+	    	<% end %>
+		  </li>
+		</ul>
+
+		<!-- Right Navbar Dropdown-->
+		<ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" id="wrench" data-toggle="dropdown" href="#">
+          <span class="glyphicon glyphicon-wrench"></span> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+          	<%= link_to "About OpenAdTools", about_path %>
+          </li>
+          <li>
+          	<%= link_to "Contribute on GitHub", "https://github.com/mjt145/openadtools", target: "_blank" %>
+          </li>
+          <li>
+          	<a id="newsletter-signup" href="http://eepurl.com/TWJfL">Sign Up To The Newsletter</a>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Tools:</li>
+          <li>
+          	<%= link_to "Link Tracker", linktracker_path %>
+          </li>
+          <li>
+						<%= link_to "Bar Chart", barchart_path %>
+					</li>
+          <li>
+						<%= link_to "Campaign Calculator", campaigncalculator_path %>
+					</li>
+          <li>
+						<%= link_to "A/B Significance", absignificance_path %>
+					</li>
+          <li>
+						<%= link_to "Budget RunRate", budgetrunrate_path %>
+					</li>
+          <li>
+						<%= link_to "Encoder / Decoder", encoderdecoder_path %>
+					</li>
+          <li>
+						<%= link_to "About OpenAdTools", about_path %>
+					</li>
+          <li>
+						<%= link_to "Tab to CSV", tabtocsv_path %>
+          </li>
+        </ul>
+      </li>
+  	</ul>
+
+
+    
   </div>
 </nav>
+
+
+
+
+  
+
+  

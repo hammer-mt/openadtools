@@ -1,56 +1,77 @@
-$navbar-height: 70px;
+$body-bg: #ecf0f1; /* 'Clouds' from http://flatuicolors.com */
+$dropdown-link-hover-color: #e74c3c;
+$dropdown-link-color: #428bca;
 
 @import 'bootstrap';
 
-// To push content below static navbar
-body { padding-top: 90px; }
-
-.navbar-brand {
-   font-weight: bold;
-   font-size: 2.2em;
-   margin-top: 0px;
+// Set default font
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
 }
 
-.navbar-text {
-   font-size: 1.2em;
-   font-style: italic;
-   margin-top: 35px;
-}
-.navbar-btn {
-   margin-top: 30px;
+// make all images responsive by default
+img {
+  @extend .img-responsive;
+  margin: 0 auto;
+ }
+
+.container {
+  width: auto;
+  max-width: 1024px;
 }
 
-* {
-	margin: 0;
+.content {
+  background-color: white;
+  padding: 10px 15px 10px 15px;
+  padding: 40px 60px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+#wrench:hover {
+	color: #428bca;
+	border-bottom: 3px solid #428bca;
+}
+.navbar-nav {
+	margin-top: 20px;
+	margin-bottom: -70px;
+	font-size: 2.5em;
+	a {
+		border-bottom: 3px solid #ecf0f1;
+	}
+	.dropdown-menu {
+		a {
+			font-size: 1.2em;
+			border-bottom: 3px solid white;
+		}
+		.active {
+			color: #e74c3c;
+			border-bottom: 3px solid #e74c3c;
+			background-color: white;
+		}
+		a:hover {
+			color: #e74c3c;
+			background-color: white;
+		}
+	}
+	.navbar-brand {
+		font-size: 1.2em;
+		margin-bottom: 40px;
+		margin-top: -25px;
+		font-color: gray;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		a:hover { text-decoration: none; }
+	}
+}
+.nav-tabs > li > a:hover {
+	background-color: white;
+	color: #e74c3c;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background-color: white;
+	color: black;
 }
 
-html, body {
-	height: 100%;
-}
-
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -4em;
-}
-.footer, .push {
-	height: 4em;
-}
-
-.footer {
-	background-color: #f5f5f5;
-}
-
-.twitter-share-button {
-	margin-top: 10px;
-	margin-bottom: -5px;
-}
-
-.twitter-follow-button {
-	margin-top: 30px;
-}
-
+// Panel CSS
 .panel {
 	width: 300px;
 	margin-right: 20px;
@@ -96,4 +117,40 @@ em {
 
 rect {
 	fill: $brand-primary;
+}
+
+// Sticky footer
+html, body {
+	height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push, #footer {
+  height: 60px;
+}
+#footer {
+  background-color: #ecf0f1;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 800px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+section {
+	display: inline-block;
 }
