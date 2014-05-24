@@ -20,21 +20,20 @@ img {
   width: auto;
   max-width: 1024px;
 }
-
 .content {
   background-color: white;
   padding: 10px 15px 10px 15px;
   padding: 40px 60px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-#wrench:hover {
-	color: #428bca;
-	border-bottom: 3px solid #428bca;
+#cog:hover {
+	color: #e74c3c;
+	border-bottom: 3px solid #e74c3c;
 }
 .navbar-nav {
 	margin-top: 20px;
-	margin-bottom: -70px;
-	font-size: 2.5em;
+	margin-bottom: -35px;
+	font-size: 2em;
 	a {
 		border-bottom: 3px solid #ecf0f1;
 	}
@@ -44,37 +43,58 @@ img {
 			border-bottom: 3px solid white;
 		}
 		.active {
-			color: #e74c3c;
 			border-bottom: 3px solid #e74c3c;
 			background-color: white;
 		}
 		a:hover {
-			color: #e74c3c;
 			background-color: white;
+			border-bottom: 3px solid #e74c3c;
 		}
 	}
 	.navbar-brand {
 		font-size: 1.2em;
-		margin-bottom: 40px;
-		margin-top: -25px;
-		font-color: gray;
+		padding-left: 0px;
+		margin-left: 0px;
+		margin-top: -17px;
+		padding-right: 0px;
+		margin-right: 0px;
 		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-		a:hover { text-decoration: none; }
+		a:hover { 
+			text-decoration: none;
+			color: #e74c3c;
+			border-bottom: 3px solid #e74c3c;
+		}
+		span {
+			margin-right: -4px;
+			font-size: 0.9em;
+
+		}
 	}
+}
+.navbar-nav .pull-right{
+	padding-left:0px;
+	margin-left:0px;
+}
+nav-tabs > li > a {
+	border-bottom: 3px solid white;
 }
 .nav-tabs > li > a:hover {
 	background-color: white;
 	color: #e74c3c;
+	border-bottom: 3px solid #e74c3c;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
 	background-color: white;
 	color: black;
+	border-bottom: 3px solid white;
 }
 
 // Panel CSS
 .panel {
 	width: 300px;
 	margin-right: 20px;
+	text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .page-header {
@@ -84,6 +104,9 @@ img {
 .home-panel {
 	color: $text-color;
 	float: left;
+	width: 270px;
+	text-overflow: ellipsis;
+  overflow: hidden;
 	&:hover {
 		color: darken($text-color, 50%);
 		-moz-box-shadow: 0 0 5px $brand-primary;
@@ -118,6 +141,9 @@ em {
 rect {
 	fill: $brand-primary;
 }
+rect:hover {
+	fill: #e74c3c;
+}
 
 // Sticky footer
 html, body {
@@ -136,10 +162,11 @@ html, body {
 
 /* Set the fixed height of the footer here */
 #push, #footer {
-  height: 60px;
+  height: 20px;
 }
 #footer {
   background-color: #ecf0f1;
+  margin-bottom: 40px;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
