@@ -115,34 +115,81 @@ function graph() {
 
   yScale.domain([0, dMax]);
 
-	svg.selectAll("rect")
-	   .data(dataset)
-	   .transition()
-	   .duration(1000)
-	   .attr("x", function(d, i) {
-        return i * (w / l);
-      })
-     .attr("y", function(d) {
-        return yScale(d);
-      })
-     .attr("width", w / l - p)
-     .attr("height", function(d) {
-        return h - yScale(d);
-      });
+  var rect = svg.selectAll("rect").data(dataset)
 
-	svg.selectAll("text")
-     .data(dataset)
-     .transition()
-  	 .duration(1000)
-     .text(function(d) {
-        return d;
-     })
-     .attr("x", function(d, i) {
-        return i * (w / l) + (w / l - p) / 2;
-      })
-     .attr("y", function(d) {
-        return yScale(d) + 7;
-      });
+  rect.enter()
+      .append("rect")
+      .transition()
+      .duration(1000)
+      .attr("x", function(d, i) {
+         return i * (w / l);
+       })
+      .attr("y", function(d) {
+         return yScale(d);
+       })
+      .attr("width", w / l - p)
+      .attr("height", function(d) {
+        return h - yScale(d);
+       });
+
+	rect.transition()
+  	   .duration(1000)
+  	   .attr("x", function(d, i) {
+          return i * (w / l);
+        })
+       .attr("y", function(d) {
+          return yScale(d);
+        })
+       .attr("width", w / l - p)
+       .attr("height", function(d) {
+          return h - yScale(d);
+        });
+
+  rect.exit()
+      .transition()
+      .duration(500)
+      .attr("height",0)
+      .attr("y",h)
+      .remove();
+
+  var labels = svg.selectAll("text").data(dataset);
+
+  labels.enter()
+        .append("text")
+        .transition()
+        .duration(1000)
+        .text(function(d) {
+           return d;
+        })
+        .attr("x", function(d, i) {
+           return i * (w / l) + (w / l - p) / 2;
+         })
+        .attr("y", function(d) {
+           return yScale(d) + 7;
+         })
+        .attr("dy", ".75em")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "white")
+        .attr("text-anchor", "middle");
+
+  labels.transition()
+      	 .duration(1000)
+         .text(function(d) {
+            return d;
+         })
+         .attr("x", function(d, i) {
+            return i * (w / l) + (w / l - p) / 2;
+          })
+         .attr("y", function(d) {
+            return yScale(d) + 7;
+          });
+
+  labels.exit()
+        .transition()
+        .duration(500)
+        .attr("y",h)
+        .remove();
 }
 
 
