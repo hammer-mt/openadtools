@@ -183,7 +183,12 @@ function graph() {
           })
          .attr("y", function(d) {
             return yScale(d) + 7;
-          });
+          })
+         .attr("dy", ".75em")
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "11px")
+         .attr("fill", "white")
+         .attr("text-anchor", "middle");
 
   labels.exit()
         .transition()
