@@ -22,4 +22,7 @@ class ToolsController < ApplicationController
 
   def barchart
   end
+
+  def linechart
+  end
 end
