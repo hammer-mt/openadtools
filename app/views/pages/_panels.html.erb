@@ -26,18 +26,34 @@
 	</div>
 <% end %>
 
-<!-- Line Chart -->
-<%= link_to linechart_path do %>
-	<div class="panel panel-default home-panel">
-		<div class="panel-heading">
-	    <h3 class="panel-title">
-	    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
-	    </h3>
-	  </div>
-	  <div class="panel-body text-center">
-	    Paste your data straight from excel and instantly create a line chart.
-	  </div>
-	</div>
+<% if false %>
+	<!-- Line Chart -->
+	<%= link_to linechart_path do %>
+		<div class="panel panel-default home-panel">
+			<div class="panel-heading">
+		    <h3 class="panel-title">
+		    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
+		    </h3>
+		  </div>
+		  <div class="panel-body text-center">
+		    Paste your data straight from excel and instantly create a line chart.
+		  </div>
+		</div>
+	<% end %>
+
+	<!-- Ad Chat -->
+	<%= link_to adchat_path do %>
+		<div class="panel panel-default home-panel">
+			<div class="panel-heading">
+		    <h3 class="panel-title">
+		    	<button type="button" class="btn btn-primary btn-lg btn-block">AdChat</button>
+		    </h3>
+		  </div>
+		  <div class="panel-body text-center">
+		    A real-time question and answer service for performance marketers.
+		  </div>
+		</div>
+	<% end %>
 <% end %>
 
 <!-- Campaign Calculator -->

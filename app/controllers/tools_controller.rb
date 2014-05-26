@@ -25,4 +25,7 @@ class ToolsController < ApplicationController
 
   def linechart
   end
+
+  def adchat
+  end
 end

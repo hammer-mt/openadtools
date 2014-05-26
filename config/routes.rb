@@ -12,6 +12,7 @@ Openadtools::Application.routes.draw do
   get "budget-runrate", to: "tools#budgetrunrate", as: "budgetrunrate"
   get "bar-chart", to: "tools#barchart", as: "barchart"
   get "line-chart", to: "tools#linechart", as: "linechart"
+  get "adchat", to: "tools#adchat", as: "adchat"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
