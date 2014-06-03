@@ -95,7 +95,7 @@ svg.selectAll("text")
       return i * (w / l) + (w / l - p) / 2;
     })
    .attr("y", function(d) {
-      return yScale(d) + 7;
+      return yScale(d) + 15;
     });
 
 // Function to update graph
@@ -160,7 +160,7 @@ function graph() {
            return i * (w / l) + (w / l - p) / 2;
          })
         .attr("y", function(d) {
-           return yScale(d) + 7;
+           return yScale(d) + 15;
          });
 
   labels.transition()
@@ -172,7 +172,7 @@ function graph() {
             return i * (w / l) + (w / l - p) / 2;
           })
          .attr("y", function(d) {
-            return yScale(d) + 7;
+            return yScale(d) + 15;
           });
 
   labels.exit()
