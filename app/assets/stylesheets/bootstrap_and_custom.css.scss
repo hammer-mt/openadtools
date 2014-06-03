@@ -139,17 +139,10 @@ em {
 .float-right {float: right;}
 
 rect {
-	fill: $brand-primary;
+  fill: $brand-primary;
 }
 rect:hover {
-	fill: #e74c3c;
-}
-text {
-	dy: 0.75em;
-	font-family: sans-serif;
-	font-size: 11px;
-	fill: white;
-	text-anchor: middle;
+  fill: #e74c3c;
 }
 
 // Sticky footer

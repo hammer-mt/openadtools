@@ -1,24 +1,6 @@
 <% content_for :title do %>Line Chart by OpenAdTools<% end %>
 <% content_for :description do %>Paste your data straight from excel and instantly create a line chart.<% end %>
 
-<style>
-path {
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
- 
-line {
-    stroke: black;
-}
- 
-text {
-    font-family: Arial;
-    font-size: 9pt;
-    fill: black;
-}
-</style>
-
 <div class="page-header">
   <h1>Line Chart</h1>
   <p class="lead">Paste your data straight from excel and instantly create a line chart.</p>
@@ -26,9 +8,8 @@ text {
 
 <br>
 
-<div id="chart"></div>
-
-<br><hr>
+<div id="chart"><svg></svg></div>
+<hr>
 
 <form onsubmit="return false;">
 	<button class="submit btn btn-primary btn-lg" onclick="graph();" >Update Chart</button>
@@ -62,80 +43,73 @@ text {
 
 <script type="text/javascript">
 
-// Initialise setup variables
-var data = [3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 7];
-var w = 400;
-var h = 200;
-var margin = 20;
-var y = d3.scale.linear().domain([0, d3.max(data)]).range([0 + margin, h - margin]);
-var x = d3.scale.linear().domain([0, data.length]).range([0 + margin, w - margin]);
+/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
+nv.addGraph(function() {
+  var chart = nv.models.lineChart()
+                .margin({left: 50, right: 50})  //Adjust chart margins to give the x-axis some breathing room.
+                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+                .transitionDuration(350)  //how fast do you want the lines to transition?
+                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+                .showYAxis(true)        //Show the y-axis
+                .showXAxis(true)        //Show the x-axis
+  ;
 
-// Add SVG
-var vis = d3.select("#chart").append("svg:svg")
-                           .attr("width", w)
-                           .attr("height", h)
+  chart.xAxis     //Chart x-axis settings
+      .tickFormat(d3.format(',r'));
 
-// Group all elements and push them out by 200 so the axes fit
-var g = vis.append("svg:g").attr("transform", "translate(0, 200)");
+  chart.yAxis     //Chart y-axis settings
+      .tickFormat(d3.format('.02f'));
 
-// Create line element
-var line = d3.svg.line()
-                 .x(function(d,i) { return x(i); })
-                 .y(function(d) { return -1 * y(d); })
+  /* Done setting the chart up? Time to render it!*/
+  var myData = sinAndCos();   //You need data...
 
-// Add line path to SVG
-g.append("svg:path").attr("d", line(data));
+  d3.select('#chart svg')    //Select the <svg> element you want to render the chart in.
+      .attr("height", 300)   
+      .datum(myData)         //Populate the <svg> element with chart data...
+      .call(chart);          //Finally, render the chart!
 
-// Add Axes
-g.append("svg:line")
-    .attr("x1", x(0))
-    .attr("y1", -1 * y(0))
-    .attr("x2", x(w))
-    .attr("y2", -1 * y(0))
- 
-g.append("svg:line")
-    .attr("x1", x(0))
-    .attr("y1", -1 * y(0))
-    .attr("x2", x(0))
-    .attr("y2", -1 * y(d3.max(data)))
+  //Update the chart when window resizes.
+  nv.utils.windowResize(function() { chart.update() });
+  return chart;
+});
+/**************************************
+ * Simple test data generator
+ */
+function sinAndCos() {
+  var sin = [], sin2 = [],
+      cos = [], line = [];
 
-// Add axis labels
-g.selectAll(".xLabel")
-    .data(x.ticks(5))
-    .enter().append("svg:text")
-    .attr("class", "xLabel")
-    .text(String)
-    .attr("x", function(d) { return x(d) })
-    .attr("y", 0)
-    .attr("text-anchor", "middle")
- 
-g.selectAll(".yLabel")
-    .data(y.ticks(4))
-    .enter().append("svg:text")
-    .attr("class", "yLabel")
-    .text(String)
-    .attr("x", 0)
-    .attr("y", function(d) { return -1 * y(d) })
-    .attr("text-anchor", "right")
-    .attr("dy", 4)
+  //Data is represented as an array of {x,y} pairs.
+  for (var i = 0; i < 100; i++) {
+    sin.push({x: i, y: Math.sin(i/10)});
+    sin2.push({x: i, y: Math.sin(i/10) *0.25 + 0.5});
+    cos.push({x: i, y: .5 * Math.cos(i/10)});
+    line.push({x: i, y: .5});
+  }
 
-// Add ticks to axes
-g.selectAll(".xTicks")
-    .data(x.ticks(5))
-    .enter().append("svg:line")
-    .attr("class", "xTicks")
-    .attr("x1", function(d) { return x(d); })
-    .attr("y1", -1 * y(0))
-    .attr("x2", function(d) { return x(d); })
-    .attr("y2", -1 * y(-0.3))
- 
-g.selectAll(".yTicks")
-    .data(y.ticks(4))
-    .enter().append("svg:line")
-    .attr("class", "yTicks")
-    .attr("y1", function(d) { return -1 * y(d); })
-    .attr("x1", x(-0.3))
-    .attr("y2", function(d) { return -1 * y(d); })
-    .attr("x2", x(0))
+  //Line chart data should be sent as an array of series objects.
+  return [
+    {
+      values: sin,      //values - represents the array of {x,y} data points
+      key: 'Sine Wave', //key  - the name of the series.
+      color: '#ff7f0e'  //color - optional: choose your own line color.
+    },
+    {
+      values: cos,
+      key: 'Cosine Wave',
+      color: '#2ca02c'
+    },
+    {
+      values: sin2,
+      key: 'Another sine wave',
+      color: '#7777ff',
+    },
+    {
+      values: line,
+      key: 'line wave',
+      color: '#000000',
+    }
+  ];
+}
 
 </script>
