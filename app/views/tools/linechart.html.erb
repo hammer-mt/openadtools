@@ -16,26 +16,42 @@
 	<br><br>
 	<h3>Input Data <small>(paste your data straight from excel)</small></h3>
 	<div class="col-md-4">
-	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the data you want to display as a line chart here..." autofocus >5
-10
-13
-19
-21
-25
-22
-18
-15
-13
-11
-12
-15
-20
-18
-17
-16
-18
-23
-25</textarea>
+	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the data you want to display as a line chart here..." autofocus >Date   Cost    Clicks
+1/1/2014    994 2041
+1/2/2014    512 2758
+1/3/2014    308 1004
+1/4/2014    741 2041
+1/5/2014    50  107
+1/6/2014    363 937
+1/7/2014    676 1263
+1/8/2014    556 689
+1/9/2014    49  89
+1/10/2014   448 637
+1/11/2014   985 3018
+1/12/2014   840 875
+1/13/2014   624 960
+1/14/2014   293 2538
+1/15/2014   611 2982
+1/16/2014   121 1534
+1/17/2014   906 3044
+1/18/2014   133 276
+1/19/2014   712 1131
+1/20/2014   728 1396
+1/21/2014   404 525
+1/22/2014   987 5070
+1/23/2014   979 5749
+1/24/2014   903 1240
+1/25/2014   559 1483
+1/26/2014   127 332
+1/27/2014   759 10201
+1/28/2014   927 1422
+1/29/2014   415 1105
+1/30/2014   17  26
+1/31/2014   946 7965
+2/1/2014    373 1379
+2/2/2014    738 1588
+2/3/2014    266 285
+2/4/2014    46  223</textarea>
 <br><br><br>
 </div>
 </form>
@@ -75,6 +91,45 @@ nv.addGraph(function() {
 /**************************************
  * Simple test data generator
  */
+
+var cl = function(arg) {
+  console.log(arg);
+}
+
+//var tsv is the TSV file with headers
+function tsvJSON(tsv){
+ 
+  var lines=tsv.split("\n");
+ 
+  var result = [];
+ 
+  var headers=lines[0].split("\t");
+ 
+  for(var i=1;i<lines.length;i++){
+ 
+    var obj = {};
+    var currentline=lines[i].split("\t");
+ 
+    for(var j=0;j<headers.length;j++){
+      obj[headers[j]] = currentline[j];
+    }
+ 
+    result.push(obj);
+ 
+  }
+  
+  //return result; //JavaScript object
+  return JSON.stringify(result); //JSON
+}
+
+function getData() {
+    var raw = document.getElementById('textinput').value
+    cl(raw);
+    var JSONified = tsvJSON(raw);
+    cl(JSONified);
+
+}
+
 function sinAndCos() {
   var sin = [], sin2 = [],
       cos = [], line = [];
