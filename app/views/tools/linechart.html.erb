@@ -57,10 +57,6 @@ nv.addGraph(function() {
  * Simple test data generator
  */
 
-var cl = function(arg) {
-  console.log(arg);
-}
-
 //Function to convert tsv to JSON
 function tsvJSON(tsv){
   var lines=tsv.split("\n");
@@ -120,14 +116,11 @@ var raw = "Date\tCost\tClicks\n\
 
 $(document).ready(function() {
   $('#textinput').val(raw);
-  cl(raw);
 });
 
 function getData() {
     var raw = $("#textinput").val();
-    cl(raw);
     var JSONified = tsvJSON(raw);
-    cl(JSONified);
 }
 
 function sinAndCos() {

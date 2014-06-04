@@ -20,7 +20,7 @@
 <script type="text/javascript">
 
 //Function to convert tab delimited values to JSON
-function tabToJSON(tsv){
+function convTabToJSON(tsv){
   var lines=tsv.split("\n");
   var result = [];
 
@@ -37,6 +37,12 @@ function tabToJSON(tsv){
   }
   //return result; //JavaScript object
   return JSON.stringify(result); //JSON
+}
+
+function tabToJSON() {
+    var raw = $("#textinput").val();
+    var JSONified = convTabToJSON(raw);
+    $("#textinput").val(JSONified);
 }
 
 var raw = "Date\tCost\tClicks\n\
@@ -79,3 +85,5 @@ var raw = "Date\tCost\tClicks\n\
 $(document).ready(function() {
   $('#textinput').val(raw);
 });
+
+</script>
