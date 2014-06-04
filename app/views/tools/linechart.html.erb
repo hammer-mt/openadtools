@@ -16,42 +16,7 @@
 	<br><br>
 	<h3>Input Data <small>(paste your data straight from excel)</small></h3>
 	<div class="col-md-4">
-	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the data you want to display as a line chart here..." autofocus >Date   Cost    Clicks
-1/1/2014    994 2041
-1/2/2014    512 2758
-1/3/2014    308 1004
-1/4/2014    741 2041
-1/5/2014    50  107
-1/6/2014    363 937
-1/7/2014    676 1263
-1/8/2014    556 689
-1/9/2014    49  89
-1/10/2014   448 637
-1/11/2014   985 3018
-1/12/2014   840 875
-1/13/2014   624 960
-1/14/2014   293 2538
-1/15/2014   611 2982
-1/16/2014   121 1534
-1/17/2014   906 3044
-1/18/2014   133 276
-1/19/2014   712 1131
-1/20/2014   728 1396
-1/21/2014   404 525
-1/22/2014   987 5070
-1/23/2014   979 5749
-1/24/2014   903 1240
-1/25/2014   559 1483
-1/26/2014   127 332
-1/27/2014   759 10201
-1/28/2014   927 1422
-1/29/2014   415 1105
-1/30/2014   17  26
-1/31/2014   946 7965
-2/1/2014    373 1379
-2/2/2014    738 1588
-2/3/2014    266 285
-2/4/2014    46  223</textarea>
+	<textarea class="form-control" rows="10" id="textinput" placeholder="Paste the data you want to display as a line chart here..." autofocus ></textarea>
 <br><br><br>
 </div>
 </form>
@@ -122,12 +87,53 @@ function tsvJSON(tsv){
   return JSON.stringify(result); //JSON
 }
 
+var raw = "Date\tCost\tClicks\n\
+1/1/2014\t233\t658\n\
+1/2/2014\t373\t1582\n\
+1/3/2014\t799\t2486\n\
+1/4/2014\t205\t418\n\
+1/5/2014\t95\t162\n\
+1/6/2014\t148\t382\n\
+1/7/2014\t280\t324\n\
+1/8/2014\t314\t410\n\
+1/9/2014\t359\t426\n\
+1/10/2014\t862\t962\n\
+1/11/2014\t81\t348\n\
+1/12/2014\t573\t623\n\
+1/13/2014\t99\t181\n\
+1/14/2014\t880\t5946\n\
+1/15/2014\t647\t3470\n\
+1/16/2014\t82\t1428\n\
+1/17/2014\t404\t625\n\
+1/18/2014\t291\t898\n\
+1/19/2014\t957\t2141\n\
+1/20/2014\t481\t1207\n\
+1/21/2014\t881\t7407\n\
+1/22/2014\t434\t799\n\
+1/23/2014\t390\t597\n\
+1/24/2014\t744\t1595\n\
+1/25/2014\t128\t129\n\
+1/26/2014\t982\t1111\n\
+1/27/2014\t562\t685\n\
+1/28/2014\t48\t162\n\
+1/29/2014\t57\t162\n\
+1/30/2014\t477\t620\n\
+1/31/2014\t492\t600\n\
+2/1/2014\t202\t293\n\
+2/2/2014\t390\t455\n\
+2/3/2014\t496\t710\n\
+2/4/2014\t807\t14662";
+
+$(document).ready(function() {
+  $('#textinput').val(raw);
+  cl(raw);
+});
+
 function getData() {
-    var raw = document.getElementById('textinput').value
+    var raw = $("#textinput").val();
     cl(raw);
     var JSONified = tsvJSON(raw);
     cl(JSONified);
-
 }
 
 function sinAndCos() {
