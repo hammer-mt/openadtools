@@ -1,0 +1,81 @@
+<% content_for :title do %>Tab to JSON by OpenAdTools<% end %>
+<% content_for :description do %>Convert Tab Delimited Text into JavaScript Object Notation (JSON) at the click of a button.<% end %>
+
+<div class="page-header">
+  <h1>Tab to JSON</h1>
+  <p class="lead">Convert Tab Delimited Text into JavaScript Object Notation (JSON) with one click.</p>
+</div>
+
+<form onsubmit="return false;">
+	<textarea class="form-control" rows="10" id="textinput" 
+    placeholder= "Paste the tab delimited data you want to convert to JSON here...." 
+    autofocus ></textarea>
+	<button class="submit btn btn-primary btn-lg pull-right" onclick="tabToJSON();" >Tab to JSON</button>
+</form>
+<br><br><br>
+
+<p class="text-muted">This tool was found on <%= link_to "Techslides.com", "http://techslides.com/convert-csv-to-json-in-javascript/" %>, before being reproduced and modified here.</p>
+
+
+<script type="text/javascript">
+
+//Function to convert tab delimited values to JSON
+function tabToJSON(tsv){
+  var lines=tsv.split("\n");
+  var result = [];
+
+  var headers=lines[0].split("\t");
+
+  for(var i=1;i<lines.length;i++){
+    var obj = {};
+    var currentline=lines[i].split("\t");
+ 
+    for(var j=0;j<headers.length;j++){
+      obj[headers[j]] = currentline[j];
+    }
+    result.push(obj);
+  }
+  //return result; //JavaScript object
+  return JSON.stringify(result); //JSON
+}
+
+var raw = "Date\tCost\tClicks\n\
+1/1/2014\t233\t658\n\
+1/2/2014\t373\t1582\n\
+1/3/2014\t799\t2486\n\
+1/4/2014\t205\t418\n\
+1/5/2014\t95\t162\n\
+1/6/2014\t148\t382\n\
+1/7/2014\t280\t324\n\
+1/8/2014\t314\t410\n\
+1/9/2014\t359\t426\n\
+1/10/2014\t862\t962\n\
+1/11/2014\t81\t348\n\
+1/12/2014\t573\t623\n\
+1/13/2014\t99\t181\n\
+1/14/2014\t880\t5946\n\
+1/15/2014\t647\t3470\n\
+1/16/2014\t82\t1428\n\
+1/17/2014\t404\t625\n\
+1/18/2014\t291\t898\n\
+1/19/2014\t957\t2141\n\
+1/20/2014\t481\t1207\n\
+1/21/2014\t881\t7407\n\
+1/22/2014\t434\t799\n\
+1/23/2014\t390\t597\n\
+1/24/2014\t744\t1595\n\
+1/25/2014\t128\t129\n\
+1/26/2014\t982\t1111\n\
+1/27/2014\t562\t685\n\
+1/28/2014\t48\t162\n\
+1/29/2014\t57\t162\n\
+1/30/2014\t477\t620\n\
+1/31/2014\t492\t600\n\
+2/1/2014\t202\t293\n\
+2/2/2014\t390\t455\n\
+2/3/2014\t496\t710\n\
+2/4/2014\t807\t14662";
+
+$(document).ready(function() {
+  $('#textinput').val(raw);
+});

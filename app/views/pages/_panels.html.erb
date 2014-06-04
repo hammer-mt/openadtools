@@ -26,34 +26,18 @@
 	</div>
 <% end %>
 
-<% if false %>
-	<!-- Line Chart -->
-	<%= link_to linechart_path do %>
-		<div class="panel panel-default home-panel">
-			<div class="panel-heading">
-		    <h3 class="panel-title">
-		    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
-		    </h3>
-		  </div>
-		  <div class="panel-body text-center">
-		    Paste your data straight from excel and instantly create a line chart.
-		  </div>
-		</div>
-	<% end %>
-
-	<!-- Ad Chat -->
-	<%= link_to adchat_path do %>
-		<div class="panel panel-default home-panel">
-			<div class="panel-heading">
-		    <h3 class="panel-title">
-		    	<button type="button" class="btn btn-primary btn-lg btn-block">AdChat</button>
-		    </h3>
-		  </div>
-		  <div class="panel-body text-center">
-		    A real-time question and answer service for performance marketers.
-		  </div>
-		</div>
-	<% end %>
+<!-- Line Chart -->
+<%= link_to linechart_path do %>
+	<div class="panel panel-default home-panel">
+		<div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
+	    </h3>
+	  </div>
+	  <div class="panel-body text-center">
+	    Paste your data straight from excel and instantly create a line chart.
+	  </div>
+	</div>
 <% end %>
 
 <!-- Campaign Calculator -->
@@ -125,3 +109,32 @@
 	  </div>
 	</div>
 <% end %>
+
+<!-- Tab to JSON -->
+<%= link_to tabtojson_path do %>
+	<div class="panel panel-default home-panel">
+		<div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<button type="button" class="btn btn-primary btn-lg btn-block">Tab to JSON</button>
+	    </h3>
+	  </div>
+	  <div class="panel-body text-center">
+	    Convert Tab Delimited Text into JavaScript Object Notation (JSON).
+	  </div>
+	</div>
+<% end %>
+
+<!-- Tab to JSON -->
+<%= link_to csvtojson_path do %>
+	<div class="panel panel-default home-panel">
+		<div class="panel-heading">
+	    <h3 class="panel-title">
+	    	<button type="button" class="btn btn-primary btn-lg btn-block">CSV to JSON</button>
+	    </h3>
+	  </div>
+	  <div class="panel-body text-center">
+	    Convert Comma Seperated Values (CSV) into JavaScript Object Notation (JSON).
+	  </div>
+	</div>
+<% end %>
+
