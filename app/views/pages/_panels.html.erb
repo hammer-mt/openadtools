@@ -1,15 +1,17 @@
-<!-- Link Tracker -->
-<%= link_to linktracker_path do %>
-	<div class="panel panel-default home-panel">
-		<div class="panel-heading">
-	    <h3 class="panel-title">
-	    	<button type="button" class="btn btn-primary btn-lg btn-block">Link Tracker</button>
-	    </h3>
-	  </div>
-	  <div class="panel-body text-center">
-	    Quickly add UTM tracking parameters to your marketing campaign links.
-	  </div>
-	</div>
+<% if false %>
+	<!-- Line Chart -->
+	<%= link_to linechart_path do %>
+		<div class="panel panel-default home-panel">
+			<div class="panel-heading">
+		    <h3 class="panel-title">
+		    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
+		    </h3>
+		  </div>
+		  <div class="panel-body text-center">
+		    Paste your data straight from excel and instantly create a line chart.
+		  </div>
+		</div>
+	<% end %>
 <% end %>
 
 <!-- Bar Chart -->
@@ -26,16 +28,16 @@
 	</div>
 <% end %>
 
-<!-- Line Chart -->
-<%= link_to linechart_path do %>
+<!-- Link Tracker -->
+<%= link_to linktracker_path do %>
 	<div class="panel panel-default home-panel">
 		<div class="panel-heading">
 	    <h3 class="panel-title">
-	    	<button type="button" class="btn btn-primary btn-lg btn-block">Line Chart</button>
+	    	<button type="button" class="btn btn-primary btn-lg btn-block">Link Tracker</button>
 	    </h3>
 	  </div>
 	  <div class="panel-body text-center">
-	    Paste your data straight from excel and instantly create a line chart.
+	    Quickly add UTM tracking parameters to your marketing campaign links.
 	  </div>
 	</div>
 <% end %>
@@ -133,7 +135,7 @@
 	    </h3>
 	  </div>
 	  <div class="panel-body text-center">
-	    Convert Comma Seperated Values (CSV) into JavaScript Object Notation (JSON).
+	    Convert Comma Seperated Values (CSV) into JSON.
 	  </div>
 	</div>
 <% end %>
