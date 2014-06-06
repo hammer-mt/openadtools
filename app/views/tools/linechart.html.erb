@@ -25,57 +25,40 @@
 <script type="text/javascript">
 
 /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
-nv.addGraph(function() {
-  var chart = nv.models.lineChart()
-                .margin({left: 50, right: 50})  //Adjust chart margins to give the x-axis some breathing room.
-                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-                .transitionDuration(350)  //how fast do you want the lines to transition?
-                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-                .showYAxis(true)        //Show the y-axis
-                .showXAxis(true)        //Show the x-axis
-  ;
 
-  chart.xAxis     //Chart x-axis settings
-      .tickFormat(d3.format(',r'));
+function graph() {
+  nv.addGraph(function() {
+    var chart = nv.models.lineChart()
+                  .margin({left: 50, right: 50})  //Adjust chart margins to give the x-axis some breathing room.
+                  .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+                  .transitionDuration(350)  //how fast do you want the lines to transition?
+                  .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+                  .showYAxis(true)        //Show the y-axis
+                  .showXAxis(true)        //Show the x-axis
+    ;
 
-  chart.yAxis     //Chart y-axis settings
-      .tickFormat(d3.format('.02f'));
+    chart.xAxis     //Chart x-axis settings
+        .tickFormat(d3.format(',r'));
 
-  /* Done setting the chart up? Time to render it!*/
-  var myData = sinAndCos();   //You need data...
+    chart.yAxis     //Chart y-axis settings
+        .tickFormat(d3.format(',r'));
 
-  d3.select('#chart svg')    //Select the <svg> element you want to render the chart in.
-      .attr("height", 300)   
-      .datum(myData)         //Populate the <svg> element with chart data...
-      .call(chart);          //Finally, render the chart!
+    /* Done setting the chart up? Time to render it!*/
+    var myData = getData();   //You need data...
 
-  //Update the chart when window resizes.
-  nv.utils.windowResize(function() { chart.update() });
-  return chart;
-});
+    d3.select('#chart svg')    //Select the <svg> element you want to render the chart in.
+        .attr("height", 300)   
+        .datum(myData)         //Populate the <svg> element with chart data...
+        .call(chart);          //Finally, render the chart!
+
+    //Update the chart when window resizes.
+    nv.utils.windowResize(function() { chart.update() });
+    return chart;
+  });
+}
 /**************************************
  * Simple test data generator
  */
-
-//Function to convert tsv to JSON
-function tsvJSON(tsv){
-  var lines=tsv.split("\n");
-  var result = [];
-
-  var headers=lines[0].split("\t");
-
-  for(var i=1;i<lines.length;i++){
-    var obj = {};
-    var currentline=lines[i].split("\t");
- 
-    for(var j=0;j<headers.length;j++){
-      obj[headers[j]] = currentline[j];
-    }
-    result.push(obj);
-  }
-  //return result; //JavaScript object
-  return JSON.stringify(result); //JSON
-}
 
 var raw = "Date\tCost\tClicks\n\
 1/1/2014\t233\t658\n\
@@ -116,48 +99,90 @@ var raw = "Date\tCost\tClicks\n\
 
 $(document).ready(function() {
   $('#textinput').val(raw);
+  graph();
 });
 
 function getData() {
-    var raw = $("#textinput").val();
-    var JSONified = tsvJSON(raw);
-}
+  var raw = $("#textinput").val();
+  var lines = raw.split("\n");
+  var headers = lines.shift().split("\t");
+  var pathCount = headers.length -1 ;
+  var xLabel = headers.shift();
+  var yCount = lines.length;
+  var xAxis = [];
+  var path1 = [];
+  var path2 = [];
+  var path3 = [];
+  var path4 = [];
+  var currentLine = [];
 
-function sinAndCos() {
-  var sin = [], sin2 = [],
-      cos = [], line = [];
+  for (var i = 0; i < yCount; i++) {
+    currentLine = lines[i].split("\t");
 
-  //Data is represented as an array of {x,y} pairs.
-  for (var i = 0; i < 100; i++) {
-    sin.push({x: i, y: Math.sin(i/10)});
-    sin2.push({x: i, y: Math.sin(i/10) *0.25 + 0.5});
-    cos.push({x: i, y: .5 * Math.cos(i/10)});
-    line.push({x: i, y: .5});
+    xAxis.push(currentLine[0]);
+
+    path1.push({x: i, y: +currentLine[1]});
+
+    if (pathCount > 1) {
+      path2.push({x: i, y: +currentLine[2]});
+
+      if (pathCount > 2) {
+        path3.push({x: i, y: +currentLine[3]});
+
+        if (pathCount > 3) {
+          path4.push({x: i, y: +currentLine[4]});
+        }
+      }
+    }
   }
-
-  //Line chart data should be sent as an array of series objects.
-  return [
+  var result = [
     {
-      values: sin,      //values - represents the array of {x,y} data points
-      key: 'Sine Wave', //key  - the name of the series.
-      color: '#ff7f0e'  //color - optional: choose your own line color.
-    },
-    {
-      values: cos,
-      key: 'Cosine Wave',
-      color: '#2ca02c'
-    },
-    {
-      values: sin2,
-      key: 'Another sine wave',
-      color: '#7777ff',
-    },
-    {
-      values: line,
-      key: 'line wave',
-      color: '#000000',
+      values: path1,
+      key: headers[0],
+      color: '#ff7f0e'
     }
   ];
+  if (pathCount > 1) {
+    result.push(
+      {
+        values: path2,
+        key: headers[1],
+        color: '#2ca02c'
+      }
+    );
+
+    if (pathCount > 2) {
+      result.push(
+        {
+          values: path3,
+          key: headers[2],
+          color: '#7777ff'
+        }
+      );
+
+      if (pathCount > 3) {
+        result.push(
+          {
+            values: path4,
+            key: headers[3],
+            color: '#000000'
+          }
+        );
+
+        if (pathCount > 4) {
+          result.push(
+            {
+              key: "4 lines maximum"
+
+            }
+
+
+          );
+        }
+      }
+    }
+  }
+  return result;  
 }
 
 </script>
