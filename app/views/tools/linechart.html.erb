@@ -43,6 +43,8 @@ function graph() {
     chart.yAxis     //Chart y-axis settings
         .tickFormat(d3.format(',r'));
 
+    chart.forceY([0]);
+
     /* Done setting the chart up? Time to render it!*/
     var myData = getData();   //You need data...
 
@@ -63,7 +65,7 @@ function graph() {
 var raw = "Date\tCost\tClicks\n\
 1/1/2014\t233\t658\n\
 1/2/2014\t373\t1582\n\
-1/3/2014\t799\t2486\n\
+1/3/2014\t799\t248\n\
 1/4/2014\t205\t418\n\
 1/5/2014\t95\t162\n\
 1/6/2014\t148\t382\n\
@@ -74,28 +76,28 @@ var raw = "Date\tCost\tClicks\n\
 1/11/2014\t81\t348\n\
 1/12/2014\t573\t623\n\
 1/13/2014\t99\t181\n\
-1/14/2014\t880\t5946\n\
-1/15/2014\t647\t3470\n\
+1/14/2014\t880\t594\n\
+1/15/2014\t647\t347\n\
 1/16/2014\t82\t1428\n\
 1/17/2014\t404\t625\n\
 1/18/2014\t291\t898\n\
 1/19/2014\t957\t2141\n\
 1/20/2014\t481\t1207\n\
-1/21/2014\t881\t7407\n\
+1/21/2014\t881\t740\n\
 1/22/2014\t434\t799\n\
-1/23/2014\t390\t597\n\
+1/23/2014\t390\t797\n\
 1/24/2014\t744\t1595\n\
-1/25/2014\t128\t129\n\
+1/25/2014\t128\t1299\n\
 1/26/2014\t982\t1111\n\
-1/27/2014\t562\t685\n\
-1/28/2014\t48\t162\n\
-1/29/2014\t57\t162\n\
-1/30/2014\t477\t620\n\
-1/31/2014\t492\t600\n\
-2/1/2014\t202\t293\n\
-2/2/2014\t390\t455\n\
-2/3/2014\t496\t710\n\
-2/4/2014\t807\t14662";
+1/27/2014\t562\t1685\n\
+1/28/2014\t48\t1623\n\
+1/29/2014\t57\t1629\n\
+1/30/2014\t477\t1620\n\
+1/31/2014\t492\t1600\n\
+2/1/2014\t202\t1293\n\
+2/2/2014\t390\t1455\n\
+2/3/2014\t496\t1710\n\
+2/4/2014\t807\t1146";
 
 $(document).ready(function() {
   $('#textinput').val(raw);
@@ -107,7 +109,6 @@ function getData() {
   var lines = raw.split("\n");
   var headers = lines.shift().split("\t");
   var pathCount = headers.length -1 ;
-  var xLabel = headers.shift();
   var yCount = lines.length;
   var xAxis = [];
   var path1 = [];
@@ -137,7 +138,7 @@ function getData() {
   }
   var result = [
     {
-      values: path1,
+      values: path1, 
       key: headers[0],
       color: '#ff7f0e'
     }
@@ -184,5 +185,29 @@ function getData() {
   }
   return result;  
 }
+
+function getXLabels() {
+  var raw = $("#textinput").val();
+  var lines = raw.split("\n");
+  var headers = lines.shift();
+  var yCount = lines.length;
+  var xAxis = [];
+  var currentLine = [];
+
+  for (var i = 0; i < yCount; i++) {
+    currentLine = lines[i].split("\t");
+
+    xAxis.push(currentLine[0]);
+  }
+
+  return xAxis;  
+}
+
+function getXAxisLabel() {
+  var raw = $("#textinput").val();
+  var lines = raw.split("\n");
+  var headers = lines.shift().split("\t")[0];
+}
+
 
 </script>
