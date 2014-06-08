@@ -38,7 +38,11 @@ function graph() {
     ;
 
     chart.xAxis     //Chart x-axis settings
-        .tickFormat(d3.format(',r'));
+         .tickFormat(function(d) { 
+           return d3.time.format('%d %b \'%y')(new Date(d)) 
+         });
+
+        
 
     chart.yAxis     //Chart y-axis settings
         .tickFormat(d3.format(',r'));
@@ -110,28 +114,28 @@ function getData() {
   var headers = lines.shift().split("\t");
   var pathCount = headers.length -1 ;
   var yCount = lines.length;
-  var xAxis = [];
   var path1 = [];
   var path2 = [];
   var path3 = [];
   var path4 = [];
-  var currentLine = [];
 
   for (var i = 0; i < yCount; i++) {
-    currentLine = lines[i].split("\t");
+    var currentLine = lines[i].split("\t");
 
-    xAxis.push(currentLine[0]);
+    var d = new Date(currentLine[0]);
 
-    path1.push({x: i, y: +currentLine[1]});
+    var utc = Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());
+
+    path1.push({x: utc, y: +currentLine[1]});
 
     if (pathCount > 1) {
-      path2.push({x: i, y: +currentLine[2]});
+      path2.push({x: utc, y: +currentLine[2]});
 
       if (pathCount > 2) {
-        path3.push({x: i, y: +currentLine[3]});
+        path3.push({x: utc, y: +currentLine[3]});
 
         if (pathCount > 3) {
-          path4.push({x: i, y: +currentLine[4]});
+          path4.push({x: utc, y: +currentLine[4]});
         }
       }
     }
@@ -139,7 +143,7 @@ function getData() {
   var result = [
     {
       values: path1, 
-      key: headers[0],
+      key: headers[1],
       color: '#ff7f0e'
     }
   ];
@@ -147,7 +151,7 @@ function getData() {
     result.push(
       {
         values: path2,
-        key: headers[1],
+        key: headers[2],
         color: '#2ca02c'
       }
     );
@@ -156,7 +160,7 @@ function getData() {
       result.push(
         {
           values: path3,
-          key: headers[2],
+          key: headers[3],
           color: '#7777ff'
         }
       );
@@ -165,7 +169,7 @@ function getData() {
         result.push(
           {
             values: path4,
-            key: headers[3],
+            key: headers[4],
             color: '#000000'
           }
         );
@@ -184,29 +188,6 @@ function getData() {
     }
   }
   return result;  
-}
-
-function getXLabels() {
-  var raw = $("#textinput").val();
-  var lines = raw.split("\n");
-  var headers = lines.shift();
-  var yCount = lines.length;
-  var xAxis = [];
-  var currentLine = [];
-
-  for (var i = 0; i < yCount; i++) {
-    currentLine = lines[i].split("\t");
-
-    xAxis.push(currentLine[0]);
-  }
-
-  return xAxis;  
-}
-
-function getXAxisLabel() {
-  var raw = $("#textinput").val();
-  var lines = raw.split("\n");
-  var headers = lines.shift().split("\t")[0];
 }
 
 
