@@ -7,6 +7,8 @@
   <p class="lead">Calculate how long your budget will last at the current run rate.</p>
 </div>
 
+<div id="chart"><svg></svg></div>
+
 <form onsubmit="return false;" class="form">
   <div class="float-left">
     <div class="panel panel-default">
@@ -31,13 +33,17 @@
       </div>
     </div>
     <div>
-      <button class="submit btn btn-primary btn-lg" onclick="calcRunRate();" >Calculate RunRate</button>
+      <button class="submit btn btn-primary btn-lg" onclick="calcRunRate();" >Calculate Run Rate</button>
     </div>
   </div>
   <div id="output"></div>
 </form>
 
-<%= javascript_tag do %>
+<script>
+
+$(document).ready(function() {
+  $('#chart').hide();
+});
 
 var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -70,12 +76,45 @@ function calcRunRate() {
   results += "</div>";
 
   if (!spent || !start) {
-    results = "Please enter a valid budget start date and spend so far";
+    output.innerHTML = "Please enter a valid budget start date and spend so far";
     alert("Please enter a valid budget start date and spend so far");
   }
 
   output.innerHTML = results;
 
+  $('#chart').show().css('height',100);
+
+  nv.addGraph(function() {  
+    var chart = nv.models.bulletChart()
+                  .tooltips(false);
+
+    d3.select('#chart svg')
+        .attr('height', 100)
+        .attr('width', 300)
+        .datum(data())
+        .transition().duration(100)
+        .call(chart);
+
+    nv.utils.windowResize(              //Updates the window resize event callback.
+            function() {
+                chart.update();         //Renders the chart when window is resized.
+            }
+        );
+
+    $('.nv-title').html(spent);
+
+    return chart;
+  });
+
+  function data() {
+    return {
+      "title": spent,    //Label the bullet chart
+      "subtitle": "spent so far",   //sub-label for bullet chart
+      "ranges":[spent,budget/2,budget],  //Minimum, mean and maximum values.
+      "measures":[spent],    //Value representing current measurement (the thick blue line in the example)
+      "markers":[budget]      //Place a marker on the chart (the white triangle marker)
+    };
+  }
 };
 
 
@@ -88,4 +127,4 @@ function dateDiffInDays(a, b) {
   return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
 
-<% end %>
+</script>
