@@ -71,7 +71,14 @@ function calcRunRate() {
 
   results += "<p>Spend Per Day: <strong>"+runRate.toFixed(2)+"</strong></p>";
   results += "<p>Budget Left: <strong>"+budgetLeft+"</strong></p>";
-  results += "<p><strong>"+daysLeft+"</strong> Days Left at current run rate.</p>";
+
+  if (daysLeft == 0) {
+    results += "<p>Your budget will run out <strong>today</strong>!</p>";
+  } else if (daysLeft < 0) {
+    results += "<p>You have overspent by <strong>"+Math.abs(budgetLeft)+"</strong>!</p>";
+  } else {
+    results += "<p><strong>"+daysLeft+"</strong> Days Left at current run rate.</p>";
+  }
 
   results += "</div>";
 
@@ -82,7 +89,7 @@ function calcRunRate() {
 
   output.innerHTML = results;
 
-  $('#chart').show().css('height',100);
+  $('#chart').show();
 
   nv.addGraph(function() {  
     var chart = nv.models.bulletChart()
@@ -90,16 +97,10 @@ function calcRunRate() {
 
     d3.select('#chart svg')
         .attr('height', 100)
-        .attr('width', 300)
+        .attr('width', 700)
         .datum(data())
         .transition().duration(100)
         .call(chart);
-
-    nv.utils.windowResize(              //Updates the window resize event callback.
-            function() {
-                chart.update();         //Renders the chart when window is resized.
-            }
-        );
 
     $('.nv-title').html(spent);
 
@@ -110,7 +111,7 @@ function calcRunRate() {
     return {
       "title": spent,    //Label the bullet chart
       "subtitle": "spent so far",   //sub-label for bullet chart
-      "ranges":[spent,budget/2,budget],  //Minimum, mean and maximum values.
+      "ranges":[spent,budget/2,budget*1.1],  //Minimum, mean and maximum values.
       "measures":[spent],    //Value representing current measurement (the thick blue line in the example)
       "markers":[budget]      //Place a marker on the chart (the white triangle marker)
     };
